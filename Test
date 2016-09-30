@@ -1,0 +1,21 @@
+
+import java.util.Scanner;
+public class TestArvutamine {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		Arvutustehted tehe = new Arvutustehted();
+		tehe.moodustaLiitmine(1, 10);
+		int taisarv = scan.nextInt();
+		System.out.println(tehe.vastuseKontoll(taisarv));
+		//scan.close();
+		System.out.println(tehe.getVastus());
+		Scanner scan1 = new Scanner(System.in);
+		tehe.moodustaLahutamine(1, 10);
+		int taisarv1 = scan.nextInt();
+		System.out.println(tehe.vastuseKontoll(taisarv1));
+		System.out.println(tehe.getVastus());
+		scan.close();
+	}
+
+}
