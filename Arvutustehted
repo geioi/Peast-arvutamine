@@ -1,0 +1,42 @@
+public class Arvutustehted {
+	public int esimenearv;
+	public int teinearv;
+	private int vastus; 
+	
+	public Arvutustehted() {
+		esimenearv = 0;
+		teinearv = 0;
+		vastus= 0;
+	}
+	
+	public int getVastus() {
+		return vastus;
+	}
+
+	public void setVastus(int vastus) {
+		this.vastus = vastus;
+	}
+
+	public void moodustaLiitmine(int min, int max){
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv + teinearv;
+		System.out.println(esimenearv + " + " + teinearv+ "=");
+
+	}
+	public void moodustaLahutamine (int min, int max){
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv - teinearv;
+		System.out.println(esimenearv + " - " + teinearv + "=");
+	}
+
+	public boolean vastuseKontoll (int sisestus){
+		if (vastus == sisestus){
+			return true;
+		}
+		else {return false; }
+	}
+	
+	
+}
