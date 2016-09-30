@@ -1,0 +1,22 @@
+
+public class Punktid {
+	private int õiged; 
+	private int valed;
+	public Punktid() {
+		super();
+	}
+	public int getÕiged() {
+		return õiged;
+	}
+	public void setÕiged(int õiged) {
+		this.õiged = õiged;
+	}
+	public int getValed() {
+		return valed;
+	}
+	public void setValed(int valed) {
+		this.valed = valed;
+	} 
+	
+
+}
