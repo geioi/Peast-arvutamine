@@ -1,0 +1,42 @@
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+public class Ülesanne7 {
+
+	public static void main(String[] args) throws Exception{
+		File fail = new File("c:/users/geio/desktop/programmeerimine/oop/nimed.txt");
+		
+		/*
+		PrintWriter pw = new PrintWriter(fail, "UTF-8");
+		pw.println("Aadu Suur");
+		pw.println("Mari Sale Blond");
+		pw.println("Mari-Liis Maasikas");
+		pw.println("Timothy Henry Charles Tamm");
+		pw.close();
+		*/
+		
+		Scanner sc = new Scanner(fail, "UTF-8");
+		while (sc.hasNextLine()){
+			String rida = sc.nextLine();
+			String[] tükid = rida.split(" ");
+			StringBuilder sb = new StringBuilder();
+			sb.append(tükid[tükid.length-1] + " ");
+			
+			for (int i = 0; i < tükid.length-1; i++){		
+				
+				if (tükid[i].contains("-")){
+					int asukoht = tükid[i].indexOf("-");
+					sb.append(tükid[i].charAt(0) + "-" + tükid[i].charAt(asukoht+1) + ". ");
+				}
+				else {
+					sb.append(tükid[i].charAt(0) + ". ");
+				}
+			}
+			System.out.println(sb);
+		}
+		
+		sc.close();
+	}
+
+}
