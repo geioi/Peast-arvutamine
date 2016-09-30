@@ -1,3 +1,4 @@
 Class Tehted {
-  System.out.println("Katsetus")
+  System.out.println("Katsetus");
+  System.out.println();
 }
