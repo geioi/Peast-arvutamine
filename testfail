@@ -33,7 +33,6 @@ public class Ülesanne7 {
 					sb.append(tükid[i].charAt(0) + ". ");
 				}
 			}
-			System.out.println(sb);
 		}
 		
 		sc.close();
