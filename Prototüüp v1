@@ -131,14 +131,11 @@ public class TestArvutamine {
 	}
 	
 	public static void esimeneTase(Arvutustehted tehe){
-		String lõpeta = "lõpeta";
 		int arv = (int) Math.round(Math.random()*1+1);
 		
 		if (arv == 1){
 			tehe.moodustaLiitmine(1, 10);
 			Scanner scan = new Scanner(System.in);
-			
-			
 			
 			int taisarv = scan.nextInt();
 			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
@@ -160,7 +157,6 @@ public class TestArvutamine {
 	}
 	
 	public static void teineTase(Arvutustehted tehe){
-		String lõpeta = "lõpeta";
 		int arv = (int) Math.round(Math.random()*3+1);
 		
 		if (arv == 1){
