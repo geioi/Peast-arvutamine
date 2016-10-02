@@ -1,6 +1,6 @@
 //Katsetasin midagi valmis teha. See on väga algeline versioon. Pearõhk sai pandud sellele, et midagi töötaks.
 //Kui on mingeid muresid, ideid, olemasolevad meetodid muuta klassideks jne, siis anna teada või editi programmi.
-//Praegu on puudu viis, kuidas programmi tööd lõpetada, võibolla luua mingi tingimus selleks ning ainult kaks taset.
+//Praegu on puudu viis, kuidas programmi tööd lõpetada, võibolla luua mingi tingimus selleks ning ainult hetkel on ainult kaks taset.
 //Väga palju copy-paste koodi on ka peaklassi meetodides, seda tahaks kuidagi kärpida, kui võimalik.
 //Lisasi saab ka hakata vaikselt juurde mõtlema, mis teeksid programmi veidi ägedamaks.
 
