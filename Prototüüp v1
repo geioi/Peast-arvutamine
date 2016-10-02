@@ -1,0 +1,212 @@
+//Katsetasin midagi valmis teha. See on väga algeline versioon. Pearõhk sai pandud sellele, et midagi töötaks.
+//Kui on mingeid muresid, ideid, olemasolevad meetodid muuta klassideks jne, siis anna teada või editi programmi.
+//Praegu on puudu viis, kuidas programmi tööd lõpetada, võibolla luua mingi tingimus selleks ning ainult kaks taset.
+//Väga palju copy-paste koodi on ka peaklassi meetodides, seda tahaks kuidagi kärpida, kui võimalik.
+//Lisasi saab ka hakata vaikselt juurde mõtlema, mis teeksid programmi veidi ägedamaks.
+
+//Panen siia kõik klassid kokku korraga vaatamiseks, et ei peaks mitme akna vahelt käima.
+
+// KLASS PUNKTID
+
+public class Punktid{
+	private int õiged; 
+	private int valed;
+	
+	public Punktid() {
+		
+	}
+	public int getÕiged() {
+		return õiged;
+	}
+	public void setÕiged(int õiged) {
+		this.õiged = õiged;
+	}
+	public int getValed() {
+		return valed;
+	}
+	public void setValed(int valed) {
+		this.valed = valed;
+	} 
+}
+
+---------------------------------------------------------------
+
+
+// KLASS ARVUTUSTEHTED
+
+public class Arvutustehted extends Punktid{
+	public int esimenearv;
+	public int teinearv;
+	private int vastus; 
+	
+	public Arvutustehted() {
+		esimenearv = 0;
+		teinearv = 0;
+		vastus= 0;
+	}
+	
+	public int getVastus() {
+		return vastus;
+	}
+
+	public void setVastus(int vastus) {
+		this.vastus = vastus;
+	}
+
+	public int moodustaLiitmine(int min, int max){
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv + teinearv;
+		System.out.println(esimenearv + " + " + teinearv+ "=");
+		return vastus;
+
+	}
+	public int moodustaLahutamine (int min, int max){
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv - teinearv;
+		System.out.println(esimenearv + " - " + teinearv + "=");
+		return vastus;
+	}
+	
+	public int moodustaKorrutamine (int min, int max) {
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv * teinearv;
+		System.out.println(esimenearv + " * " + teinearv + "=");
+		return vastus;
+	}
+	
+	public int moodustaJagamine (int min, int max) {
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		if (esimenearv % teinearv == 0 && teinearv != 0){ //kontrollin, et arv jaguks täpselt ning ei toimuks nulliga jagamist
+			vastus = (int)(esimenearv / teinearv);
+			System.out.println(esimenearv + " / " + teinearv + "=");
+		}
+		else{
+			moodustaJagamine(min, max); //kutsume nii kaua välja kuni vastab esialgsele nõudele
+		}
+		
+		return vastus;
+	}
+
+	public boolean vastuseKontroll (int sisestus){
+		if (vastus == sisestus){
+			return true;
+		}
+		else {return false; }
+	}
+	
+	public void annaPunkt(boolean vastuseTõesus){
+		int õigeteArv = getÕiged();
+		int valedeArv = getValed();
+		
+		if (vastuseTõesus == true){
+			setÕiged(õigeteArv + 1);
+		}
+		
+		if (vastuseTõesus == false){
+			setValed(valedeArv + 1);
+		}
+	}
+}
+
+---------------------------------------------------------------
+
+// PEAKLASS
+
+import java.util.Scanner;
+public class TestArvutamine {
+	
+	public static void alustaMängu(Arvutustehted arvutus){
+		if (arvutus.getÕiged() < 3){
+			esimeneTase(arvutus);
+		}
+		
+		if (arvutus.getÕiged() >= 3){
+			teineTase(arvutus);
+		}
+		
+	}
+	
+	public static void esimeneTase(Arvutustehted tehe){
+		String lõpeta = "lõpeta";
+		int arv = (int) Math.round(Math.random()*1+1);
+		
+		if (arv == 1){
+			tehe.moodustaLiitmine(1, 10);
+			Scanner scan = new Scanner(System.in);
+			
+			
+			
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+			System.out.println("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println("Valesid vastuseid: " + tehe.getValed());
+			alustaMängu(tehe);
+			
+		}
+		if (arv == 2){
+			tehe.moodustaLahutamine(1, 10);
+			Scanner scan = new Scanner(System.in);
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+			System.out.println("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println("Valesid vastuseid: " + tehe.getValed());
+			alustaMängu(tehe);
+			
+		}
+	}
+	
+	public static void teineTase(Arvutustehted tehe){
+		String lõpeta = "lõpeta";
+		int arv = (int) Math.round(Math.random()*3+1);
+		
+		if (arv == 1){
+			tehe.moodustaLiitmine(10, 100);
+			Scanner scan = new Scanner(System.in);
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+			System.out.println("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println("Valesid vastuseid: " + tehe.getValed());
+			alustaMängu(tehe);
+			
+		}
+		if (arv == 2){
+			tehe.moodustaLahutamine(10, 100);
+			Scanner scan = new Scanner(System.in);
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+			System.out.println("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println("Valesid vastuseid: " + tehe.getValed());
+			alustaMängu(tehe);
+			
+		}
+		if (arv == 3){
+			tehe.moodustaKorrutamine(1, 10);
+			Scanner scan = new Scanner(System.in);
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+			System.out.println("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println("Valesid vastuseid: " + tehe.getValed());
+			alustaMängu(tehe);
+		}
+		if (arv == 4){
+			tehe.moodustaJagamine(1, 10);
+			Scanner scan = new Scanner(System.in);
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+			System.out.println("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println("Valesid vastuseid: " + tehe.getValed());
+			alustaMängu(tehe);
+		}
+		
+	}
+
+	public static void main(String[] args) { 
+		System.out.println("Mängujuhised: Sisestage klaviatuurilt tehte vastus.");
+		Arvutustehted arvutus = new Arvutustehted();
+		alustaMängu(arvutus);
+	}
+}
