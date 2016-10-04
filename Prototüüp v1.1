@@ -115,7 +115,7 @@ import java.util.Scanner;
 
 public class Mängi {
 	
-	public static void alustaMängu(Arvutustehted arvutus){
+	public void alustaMängu(Arvutustehted arvutus){
 		 
 		if (arvutus.getÕiged() < 3){
 			esimeneTase(arvutus);
@@ -127,7 +127,7 @@ public class Mängi {
 		
 	}
 	
-	public static void esimeneTase(Arvutustehted tehe){
+	public void esimeneTase(Arvutustehted tehe){
 		int arv = (int) Math.round(Math.random()*1+1);
 		
 		if (arv == 1){
@@ -152,7 +152,7 @@ public class Mängi {
 		}
 	}
 	
-	public static void teineTase(Arvutustehted tehe){
+	public void teineTase(Arvutustehted tehe){
 		int arv = (int) Math.round(Math.random()*3+1);
 		
 		if (arv == 1){
