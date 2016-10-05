@@ -121,7 +121,7 @@ public class Mängi {
 			}			
 		}
 
-		else if ((arvutus.getÕiged() >= 3 && arvutus.getÕiged()< 5) ){
+		else if ((arvutus.getÕiged() >= 3 && arvutus.getÕiged()< 10) ){
 			int arv = (int) Math.round(Math.random()*3+1);
 			if (arv == 1){
 				arvutus.moodustaLiitmine(10, 100);
@@ -140,7 +140,7 @@ public class Mängi {
 				vastamine(arvutus);
 			}
 		}
-		else if (arvutus.getÕiged() >= 5){
+		else if (arvutus.getÕiged() >= 10){
 			int arv = (int) Math.round(Math.random()*3+1);
 			if (arv == 1){
 				arvutus.moodustaLiitmine(100, 1000);
@@ -174,7 +174,7 @@ public class Mängi {
 		tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
 		System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
 		System.out.println(", Valesid vastuseid: " + tehe.getValed());
-   		if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3)|| (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 5)){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
+   		if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3)|| (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 10)){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
 			System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // ning väljastab selle ainult siis, kui viimane vastus oli tõene
 		} // kolmandale tasemele jõudmise jaoks saab samasse sulgu 'or'(||) tingimusena juurde panna selle suurema numbri, mida vaja.
 		alustaMängu(tehe);}
