@@ -1,0 +1,182 @@
+// lisasin õnnitleja juurde "Mängi" klassi, muud midagi :D
+
+//Klass ARVUTUSTEHTED jäi samaks
+public class Arvutustehted extends Punktid{
+	public int esimenearv;
+	public int teinearv;
+	private int vastus; 
+	
+	public Arvutustehted() {
+		esimenearv = 0;
+		teinearv = 0;
+		vastus= 0;
+	}
+	
+	public int getVastus() {
+		return vastus;
+	}
+
+	public void setVastus(int vastus) {
+		this.vastus = vastus;
+	}
+
+	public int moodustaLiitmine(int min, int max){
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv + teinearv;
+		System.out.println(esimenearv + " + " + teinearv+ "=");
+		return vastus;
+
+	}
+	public int moodustaLahutamine (int min, int max){
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv - teinearv;
+		System.out.println(esimenearv + " - " + teinearv + "=");
+		return vastus;
+	}
+	
+	public int moodustaKorrutamine (int min, int max) {
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv * teinearv;
+		System.out.println(esimenearv + " * " + teinearv + "=");
+		return vastus;
+	}
+	
+	public int moodustaJagamine (int min, int max) {
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		if (esimenearv % teinearv == 0 && teinearv != 0){ //kontrollin, et arv jaguks täpselt ning ei toimuks nulliga jagamist
+			vastus = (int)(esimenearv / teinearv);
+			System.out.println(esimenearv + " / " + teinearv + "=");
+		}
+		else{
+			moodustaJagamine(min, max); //kutsume nii kaua välja kuni vastab esialgsele nõudele
+		}
+		
+		return vastus;
+	}
+
+	public boolean vastuseKontroll (int sisestus){
+		if (vastus == sisestus){
+			return true;
+		}
+		else {return false; }
+	}
+	
+	public void annaPunkt(boolean vastuseTõesus){
+		int õigeteArv = getÕiged();
+		int valedeArv = getValed();
+		
+		if (vastuseTõesus == true){
+			setÕiged(õigeteArv + 1);
+		}
+		
+		if (vastuseTõesus == false){
+			setValed(valedeArv + 1);
+		}
+	}
+}
+--------------------------------------------------------------------
+//KLass PUNKTID jäi samaks
+public class Punktid{
+	private int õiged; 
+	private int valed;
+	
+	public int getÕiged() {
+		return õiged;
+	}
+	public void setÕiged(int õiged) {
+		this.õiged = õiged;
+	}
+	public int getValed() {
+		return valed;
+	}
+	public void setValed(int valed) {
+		this.valed = valed;
+	} 
+}
+-----------------------------------------
+//Klass MÄNGI
+
+import java.util.Scanner;
+
+public class Mängi {
+	public void alustaMängu(Arvutustehted arvutus){
+		if (arvutus.getValed()==5){ //tingimus, millal mäng peatakse
+			System.out.println("Valesid vastuseid on 5.");
+			return;
+		}
+		
+		if (arvutus.getÕiged() < 3){
+			int arv = (int) Math.round(Math.random()*1+1);
+			if (arv == 1){
+				arvutus.moodustaLiitmine(0,10 );
+				vastamine(arvutus);
+			}
+			else if (arv==2) {
+				arvutus.moodustaLahutamine(0, 10);
+				vastamine(arvutus);
+			}			
+		}
+
+		else if (arvutus.getÕiged() >= 3){
+			int arv = (int) Math.round(Math.random()*3+1);
+			if (arv == 1){
+				arvutus.moodustaLiitmine(10, 100);
+				vastamine(arvutus);
+			}
+			else if (arv==2) {
+				arvutus.moodustaLahutamine(10, 100);
+				vastamine(arvutus);
+			}
+			else if (arv==3){
+				arvutus.moodustaKorrutamine(0, 10);
+				vastamine(arvutus);
+			}
+			else if (arv==4){
+				arvutus.moodustaJagamine(0, 10);
+				vastamine(arvutus);
+			}
+		}
+
+	}
+	public void vastamine(Arvutustehted tehe){ // tegin lisameetodi, et koodi lühendada, igas osas on see sama.
+		Scanner scan = new Scanner(System.in);
+		if(scan.hasNextInt()==false){ // Kontrollib kas sisestus on int tüüpi ning kui ei ole siis mäng peatatakse
+			//String sõna = scan.nextLine();
+			System.out.println("Mäng on lõpetatud.");
+			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println(", Valesid vastuseid: " + tehe.getValed());
+			
+		}
+		else{ //kui on int tüüpi siis saab edasi mängida
+		int taisarv = scan.nextInt();
+		tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+		System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+		System.out.println(", Valesid vastuseid: " + tehe.getValed());
+    if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
+			System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // ning väljastab selle ainult siis, kui viimane vastus oli tõene
+		} // kolmandale tasemele jõudmise jaoks saab samasse sulgu 'or'(||) tingimusena juurde panna selle suurema numbri, mida vaja.
+		alustaMängu(tehe);}
+		scan.close();
+	}
+  }
+  -----------------------------------------------------------------
+  
+ //Klass Test jäi samaks
+ 
+ public class TestArvutamine {
+
+	public static void main(String[] args) { 
+		System.out.println("Peast arvutamise mäng");
+		System.out.println("Ülesanne: Sisestage klaviatuurilt tehte vastus.");
+		System.out.println("Mängu saad mängida nii kaua, kuni sul ei ole valesid vastuseid rohkem kui 5.");
+		System.out.println("Mängu peatamiseks sisesta numbri asemel täht."); // mängu kirjeldus
+		Mängi mängi = new Mängi();
+		mängi.alustaMängu(new Arvutustehted());
+		
+	}
+
+}
