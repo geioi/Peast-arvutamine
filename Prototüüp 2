@@ -5,6 +5,8 @@
 
 // Mis peamine - ASI TÖÖTAB! JUHHUU
 
+// Mõistan, et pole kommenteerinud ühtegi rida, need saame lisada homme.
+
 
 
 // Klass Arvutustehted
@@ -178,7 +180,6 @@ public class Mängi extends Tase{
 				System.out.println("Valesid vastuseid on 5.");
 				return;
 			}
-			System.out.println("Edu!");
 			kolmasTase(arvutus);
 		}
 
