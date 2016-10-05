@@ -1,6 +1,6 @@
 // lisasin õnnitleja juurde "Mängi" klassi, vastamise meetodi sisse
-// leidsin ühe vea, mille olen kuidagi tekitanud - peale pikemat mängimist (tavaliselt 30-50 vastamist) võib juhtuda,
-// et toimub jagamine nulliga. Murran pead hetkel, kuidas seda asja lahendada
+// ~~leidsin ühe vea, mille olen kuidagi tekitanud - peale pikemat mängimist (tavaliselt 30-50 vastamist) võib juhtuda,~~
+// ~~et toimub jagamine nulliga. Murran pead hetkel, kuidas seda asja lahendada~~ Lahendatud, ei lase nulli üldse kaasagi võtta
 
 //Klass ARVUTUSTEHTED jäi samaks
 public class Arvutustehted extends Punktid{
@@ -48,8 +48,8 @@ public class Arvutustehted extends Punktid{
 	
 	public int moodustaJagamine (int min, int max) {
 		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
-		teinearv= (int) Math.round(Math.random()*(max-min)+min);
-		if (esimenearv % teinearv == 0 && teinearv != 0){ //kontrollin, et arv jaguks täpselt ning ei toimuks nulliga jagamist
+		teinearv= (int) Math.round(Math.random()*(max-min)+(min+1));
+		if ((esimenearv % teinearv == 0) && teinearv != 0){ //kontrollin, et arv jaguks täpselt ning ei toimuks nulliga jagamist
 			vastus = (int)(esimenearv / teinearv);
 			System.out.println(esimenearv + " / " + teinearv + "=");
 		}
