@@ -96,29 +96,6 @@ public class Arvutustehted extends Punktid{
 }
 
 
--------------------------------------------------------
-
-
-// Klass Test
-
-
-public class TestArvutamine {
-
-	public static void main(String[] args) { 
-		System.out.println("Peast arvutamise mäng");
-		System.out.println("Ülesanne: Sisestage klaviatuurilt tehte vastus.");
-		System.out.println("Mängu saad mängida nii kaua, kuni sul ei ole valesid vastuseid rohkem kui 5.");
-		System.out.println("Mängu peatamiseks sisesta numbri asemel täht."); // mängu kirjeldus
-		System.out.println("Kõigepealt, valige tase, millelt soovite alustada(1-3)");
-		Mängi mängi = new Mängi();
-		mängi.valiTase();
-
-		
-	}
-
-}
-
-
 -------------------------------------------------------------
 
 
@@ -216,18 +193,18 @@ public class Mängi extends Tase{
 			
 		}
 		else{ //kui on int tüüpi siis saab edasi mängida
-      int taisarv = scan.nextInt();
-      tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
-      System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
-      System.out.println(", Valesid vastuseid: " + tehe.getValed());
-      if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3 && getTase() == 1)|| (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 10 && getTase() == 1)){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
-        System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // ning väljastab selle ainult siis, kui viimane vastus oli tõene
-      }
-      else if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 7 && getTase() == 2){
-        System.out.println("Palju õnne, jõudsite järgmisele tasemele!");
-      }
-      alustaMängu(tehe, getTase());}
-      scan.close();
+		      	int taisarv = scan.nextInt();
+		      	tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
+		      	System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+		      	System.out.println(", Valesid vastuseid: " + tehe.getValed());
+		      	if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3 && getTase() == 1)|| (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 10 && getTase() == 1)){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
+				System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // ning väljastab selle ainult siis, kui viimane vastus oli tõene
+		      	}
+		      	else if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 7 && getTase() == 2){
+				System.out.println("Palju õnne, jõudsite järgmisele tasemele!");
+		      	}
+		      	alustaMängu(tehe, getTase());}
+			scan.close();
 	  }
 	
   }
@@ -326,4 +303,26 @@ public class Tase{
 }	
 
   
+-------------------------------------------------------
+
+
+// Klass Test
+
+
+public class TestArvutamine {
+
+	public static void main(String[] args) { 
+		System.out.println("Peast arvutamise mäng");
+		System.out.println("Ülesanne: Sisestage klaviatuurilt tehte vastus.");
+		System.out.println("Mängu saad mängida nii kaua, kuni sul ei ole valesid vastuseid rohkem kui 5.");
+		System.out.println("Mängu peatamiseks sisesta numbri asemel täht."); // mängu kirjeldus
+		System.out.println("Kõigepealt, valige tase, millelt soovite alustada(1-3)");
+		Mängi mängi = new Mängi();
+		mängi.valiTase();
+
+		
+	}
+
+}
+
   
