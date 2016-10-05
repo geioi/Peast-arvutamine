@@ -1,4 +1,4 @@
-// lisasin õnnitleja juurde "Mängi" klassi, muud midagi :D
+// lisasin õnnitleja juurde "Mängi" klassi, vastamise meetodi sisse, muud midagi :D
 
 //Klass ARVUTUSTEHTED jäi samaks
 public class Arvutustehted extends Punktid{
@@ -156,7 +156,7 @@ public class Mängi {
 		tehe.annaPunkt(tehe.vastuseKontroll(taisarv));
 		System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
 		System.out.println(", Valesid vastuseid: " + tehe.getValed());
-    if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
+   		if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3){ // kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte 
 			System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // ning väljastab selle ainult siis, kui viimane vastus oli tõene
 		} // kolmandale tasemele jõudmise jaoks saab samasse sulgu 'or'(||) tingimusena juurde panna selle suurema numbri, mida vaja.
 		alustaMängu(tehe);}
