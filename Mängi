@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class Mängi extends Tase{ //Klassi Tase alamklass.
+
+	public static void alustaMängu(Arvutustehted arvutus, int valitudTase){
+
+		if (valitudTase == 1){ //Mäng algab esimeselt tasemelt.
+
+			if (arvutus.getÕiged() < 3){ //Arvutustehted esimesel tasemel, kuni õigeid on vähem kui kolm.
+				esimeneTase(arvutus);			
+			}
+
+			else if (arvutus.getÕiged() < 10){//Arvutustehted teisel tasemel, kuni õigeid on vähem kui kümme.
+				teineTase(arvutus);
+			}
+
+			else if (arvutus.getÕiged() >= 10){//Arvutustehted kolmandal tasemel alates kümnendast õigest vastusest.
+				kolmasTase(arvutus);
+			}
+		}
+
+		else if (valitudTase == 2){ // Mäng algab teiselt tasemelt.
+			if (arvutus.getÕiged() < 7){
+				teineTase(arvutus);
+			}
+
+			else if (arvutus.getÕiged() >= 7){
+				kolmasTase(arvutus);
+			}
+
+		}
+
+		else if (valitudTase == 3){ //Mäng algab kolmandalt tasemelt.
+			kolmasTase(arvutus);
+		}
+
+	}
+
+	public static void vastamine(Arvutustehted tehe){ //Kasutajaga suhtlemine.
+		Scanner scan = new Scanner(System.in);
+		if(scan.hasNextInt()==false){ // Kontrollib, kas sisestus on int tüüpi ning kui ei ole siis mäng lõpetatakse.
+			System.out.println("Mäng on lõpetatud.");
+			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println(", Valesid vastuseid: " + tehe.getValed());
+
+		}
+		else{
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv)); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
+			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println(", Valesid vastuseid: " + tehe.getValed());
+			if (tehe.getValed()==5){ //Tingimus, millal mäng peatakse.
+				System.out.println("Valesid vastuseid on 5. Mäng lõpetatud.");
+				scan.close();
+				return;}
+			if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3 && getTase() == 1)|| //Üleminek esimeselt teisele tasemele.
+					(tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 10 && getTase() == 1)){ //Üleminek teiselt kolmandale tasemele.
+				// Kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte, kui mängu alustati esimeselt tasemelt.
+				System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // Väljastab selle ainult siis, kui viimane vastus oli õige.
+			}
+			else if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 7 && getTase() == 2){
+				// Kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte, kui mängu alustati teiselt tasemelt.
+				System.out.println("Palju õnne, jõudsite järgmisele tasemele!");
+			}
+			alustaMängu(tehe, getTase()); //Meetodit kutsutakse nii kaua välja, kuni mängija otsustab mängu lõpetada või ta on vastanud viis korda valesti.
+		}
+		scan.close();
+	}
+
+}
