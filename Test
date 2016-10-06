@@ -1,0 +1,12 @@
+public class TestArvutamine {
+
+	public static void main(String[] args) { 
+		System.out.println("Peast arvutamise mäng"); //Pealkiri
+		System.out.println("Ülesanne: Sisestage klaviatuurilt tehte vastus."); //Mängu juhised.
+		System.out.println("Mängu saab mängida nii kaua, kuni valesid vastuseid on vähem kui 5.");
+		System.out.println("Mängu peatamiseks sisesta numbri asemel mittenumber.");
+		System.out.print("Kõigepealt, valige tase, millelt soovite alustada(1-3): ");
+		Mängi mäng = new Mängi();
+		mäng.valiTase();
+	}
+}
