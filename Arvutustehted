@@ -1,0 +1,74 @@
+public class Arvutustehted extends Punktid{ //Arvutustehted on klassi Punktid alamklass.
+	private int esimenearv;
+	private int teinearv;
+	private int vastus; 
+	
+	public Arvutustehted() { //Algkonstruktor tehte loomiseks.
+		esimenearv = 0;
+		teinearv = 0;
+		vastus= 0;
+	}
+
+	public int moodustaLiitmine(int min, int max){ //Liitmistehte moodustamine, kus antakse ette randomi vahemik.
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv + teinearv;
+		System.out.print(esimenearv + " + " + teinearv+ " = ");
+		return vastus;
+
+	}
+	public int moodustaLahutamine (int min, int max){ //Lahutamistehte moodustamine, kus antakse ette randomi vahemik.
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv - teinearv;
+		System.out.print(esimenearv + " - " + teinearv + " = ");
+		return vastus;
+	}
+	
+	public int moodustaKorrutamine (int min, int max) {//Korrutamistehte moodustamine, kus antakse ette randomi vahemik.
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		vastus = esimenearv * teinearv;
+		System.out.print(esimenearv + " * " + teinearv + " = ");
+		return vastus;
+	}
+	
+	public int moodustaJagamine (int min, int max) { //Jagamistehte moodustamine, kus antakse ette randomi vahemik.
+		esimenearv= (int) Math.round(Math.random()*(max-min)+min);
+		teinearv= (int) Math.round(Math.random()*(max-min)+min);
+		if (teinearv == 0){ //Teine tegur ei saa võrduda nulliga.
+			return moodustaJagamine(min, max);
+		}
+		else{
+			if (esimenearv % teinearv == 0){ //Kontroll, et arvud jaguksid täpselt.
+				vastus = (int)(esimenearv / teinearv);
+				System.out.print(esimenearv + " / " + teinearv + " = ");
+			}
+			else{
+				return moodustaJagamine(min, max); // Funktsiooni kutusutakse nii kaua välja, kuni vastab esialgsetele nõudmistele.
+			}
+		}
+		
+		return vastus;
+	}
+
+	public boolean vastuseKontroll (int sisestus){ //Kasutaja sisestatud vastuse kontroll.
+		if (vastus == sisestus){
+			return true;
+		}
+		else {return false; }
+	}
+	
+	public void annaPunkt(boolean vastuseTõesus){ //Punktide arvestamine. 
+		int õigeteArv = getÕiged();
+		int valedeArv = getValed();
+		
+		if (vastuseTõesus == true){ //Õige vastuse korral liidetakse 1 juurde muutujale õiged.
+			setÕiged(õigeteArv + 1);
+		}
+		
+		if (vastuseTõesus == false){//Vale vastuse korral liidetakse 1 juurde muutujale valed.
+			setValed(valedeArv + 1);
+		}
+	}
+}
