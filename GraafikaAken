@@ -24,6 +24,14 @@ public class GraafikaAken extends Application {
 		StringBuilder sb = new StringBuilder();
 		BorderPane Paan = new BorderPane();
 		TextField e = new TextField();
+		e.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent inputevent) {
+				if (!inputevent.getCharacter().matches("\\d")) {              
+					inputevent.consume();
+				}
+			}
+		});
 		e.setPrefSize(100, 60);
 		e.setFont(new Font("Arial", 20));
 		
