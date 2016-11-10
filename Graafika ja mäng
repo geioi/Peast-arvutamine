@@ -1,359 +1,5 @@
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-public class GraafikaAken extends Application {
-	public void ekraan (Stage ekraan, Arvutustehted arvutus){
-
-		StringBuilder sisestus = new StringBuilder();
-		BorderPane Paan = new BorderPane();
-		TextField e = new TextField();
-
-		e.setPrefSize(100, 60);
-		e.setFont(new Font("Arial", 20));
-
-		StackPane stack = new StackPane();
-		Rectangle rec = new Rectangle(190, 100, Color.WHITE);
-		Text tehe = new Text(arvutus.getTulemus().get(0));
-
-		tehe.setFont(new Font("Arial", 30));
-		stack.getChildren().addAll(rec, tehe);
-
-		HBox all= new HBox();
-		all.setPadding(new Insets(10, 10, 10, 10));
-		Paan.setCenter(all);
-
-		GridPane n = new GridPane();
-		n.setVgap(10); 
-
-		Label õiged = new Label("Õiged: ");
-		Label õigedArv = new Label("0");
-		õigedArv.setText(Integer.toString(arvutus.getÕiged()));
-		Label valed = new Label("Valed: ");
-		Label valedArv = new Label("0");
-		valedArv.setText(Integer.toString(arvutus.getValed()));
-
-		VBox ülemine = new VBox(5);
-		HBox kaks = new HBox(30);
-		HBox kaks_alumine = new HBox(30);
-		HBox ülemine_ülemine_vasak = new HBox(5);
-		HBox ülemine_ülemine_parem = new HBox(5);
-		HBox ülemine_alumine_vasak = new HBox(20);
-		HBox ülemine_alumine_parem = new HBox(20);
-		kaks.getChildren().addAll(ülemine_ülemine_vasak, ülemine_ülemine_parem);
-		kaks_alumine.getChildren().addAll(ülemine_alumine_vasak, ülemine_alumine_parem);
-		ülemine.getChildren().addAll(kaks, kaks_alumine);
-		ülemine_ülemine_vasak.getChildren().addAll(õiged, õigedArv);
-		ülemine_ülemine_parem.getChildren().addAll(valed, valedArv);
-		ülemine_alumine_parem.getChildren().add(e);
-		ülemine_alumine_vasak.getChildren().add(stack);
-		ülemine_alumine_vasak.setAlignment(Pos.CENTER_LEFT);
-		ülemine_alumine_parem.setAlignment(Pos.CENTER_RIGHT);
-		kaks.setAlignment(Pos.CENTER);
-		kaks_alumine.setAlignment(Pos.CENTER);
-		ülemine_ülemine_vasak.setAlignment(Pos.CENTER_LEFT);
-		ülemine_ülemine_parem.setAlignment(Pos.TOP_RIGHT);
-		Paan.setTop(ülemine);
-
-		HBox x1=new HBox();
-		x1.setSpacing(10);
-		HBox x2=new HBox();
-		x2.setSpacing(10);
-		HBox x3=new HBox();
-		x3.setSpacing(10);
-		HBox x4=new HBox();
-		x4.setSpacing(10);
-		HBox x6 = new HBox();
-		x6.setSpacing(10);
-		x6.setPadding(new Insets(20,20,20,20));
-
-		n.add(x1,0,1);
-		n.add(x2,0,2);
-		n.add(x3,0,3);
-		n.add(x4,0,4);
-		all.getChildren().add(n);
-		all.setAlignment(Pos.CENTER);
-
-		for (int i=1; i<10; i++){
-			Button n1=new Button (new Integer(i).toString());
-			n1.setTextFill(Color.BLUE);
-			n1.setPrefSize(60,30);
-			if (i<4){
-				x3.getChildren().add(n1);
-				int number = i;
-				n1.setOnAction(event -> {
-					sisestus.append(number);
-					e.setText(sisestus.toString());
-				});
-
-			}
-			else if (i<7){
-				x2.getChildren().add(n1);
-				int number = i;
-				n1.setOnAction(event -> {
-					sisestus.append(number);
-					e.setText(sisestus.toString());
-				});
-			}
-			else{
-				x1.getChildren().add(n1);
-				int number = i;
-				n1.setOnAction(event -> {
-					sisestus.append(number);
-					e.setText(sisestus.toString());
-				});
-			}
-		}
-
-		Button miinus= new Button("-");
-		miinus.setTextFill(Color.RED);
-		miinus.setPrefSize(60,30);
-		x2.getChildren().add(miinus);
-		Button n0=new Button ("C");
-		n0.setTextFill(Color.RED);
-		n0.setPrefSize(60,30);
-		Button nn=new Button ("0");
-		nn.setTextFill(Color.BLUE);
-		nn.setPrefSize(60,30);
-		Button nm=new Button ("CE");
-		nm.setTextFill(Color.RED);
-		nm.setPrefSize(60,30);
-		x4.getChildren().addAll(n0,nn,nm);
-		miinus.setOnAction(event ->{
-			if (sisestus.length() < 1){
-				sisestus.append("-");
-				e.setText(sisestus.toString());
-			}
-		});
-		n0.setOnAction(event -> {
-			if (sisestus.length() > 0){
-				sisestus.deleteCharAt(sisestus.length()-1);
-				e.setText(sisestus.toString());
-			}
-		});
-
-		nn.setOnAction(event -> {
-			sisestus.append("0");
-			e.setText(sisestus.toString());
-		});
-
-		nm.setOnAction(event -> {sisestus.setLength(0); e.setText(sisestus.toString());});
-
-		Button ok = new Button ("OK");
-		ok.setTextFill(Color.GREEN);
-		ok.setPrefSize(60,30);
-		x1.getChildren().add(ok);
-		ok.setOnAction(event-> {
-			if (sisestus.equals(null)) {
-				sisestus.append(e.getCharacters());
-			}
-			Mängi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString());
-			//sisestus.setLength(0); 
-			//e.setText(sisestus.toString());
-			Arvutustehted uusArvutus = new Arvutustehted();
-			Mängi.alustaMängu(uusArvutus, Tase.getTase(), sisestus.toString());
-			ekraan(ekraan, uusArvutus);
-
-		});
-		e.setOnKeyPressed(event ->{
-			if (event.getCode().equals(KeyCode.ENTER)){
-				sisestus.append(e.getCharacters());
-				Mängi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString());
-				//sisestus.setLength(0); 
-				//e.setText(sisestus.toString());
-				Arvutustehted uusArvutus = new Arvutustehted();
-				Mängi.alustaMängu(uusArvutus, Tase.getTase(), sisestus.toString());
-				ekraan(ekraan, uusArvutus);}
-			if (event.getCode().equals(KeyCode.BACK_SPACE)){
-				if (sisestus.length() > 0){
-					sisestus.deleteCharAt(sisestus.length()-1);
-					e.setText(sisestus.toString());
-				}
-			}
-		}
-				);
-
-		Button lõpeta = new Button("Lõpeta");
-		lõpeta.setPrefSize(60,30);
-		x6.getChildren().add(lõpeta);
-		x6.setAlignment(Pos.TOP_CENTER);
-		Paan.setBottom(x6);
-
-		lõpeta.setOnAction(event -> Platform.exit());
-
-		Scene stseen1 = new Scene(Paan,  300, 380, Color.SNOW);  // luuakse stseen  
-		ekraan.setTitle("Peast Arvutamine");  // lava tiitelribale pannakse tekst
-		ekraan.setScene(stseen1);  // lavale lisatakse stseen
-		ekraan.setResizable(false);
-		ekraan.show();  // lava tehakse nÃ¤htavaks
-
-	}
-	@Override
-	public void start(Stage peaLava) {
-		Pane miski= new Pane ();
-		StringBuilder nimi =new  StringBuilder();
-		VBox oopp=new VBox(10);
-		HBox oop=new HBox(10);
-		Label label = new Label("Mängu alustamiseks vali tase.");
-		Button üks = new Button("Tase 1");
-		Button kaks1 = new Button ("Tase 2");
-		Button kolm = new Button ("Tase 3");
-		Button lõpp = new Button("Lõpeta");
-
-		oop.getChildren().addAll(üks, kaks1, kolm);
-		oopp.getChildren().addAll(label, oop, lõpp);
-		oopp.setAlignment(Pos.CENTER);
-		miski.getChildren().add(oopp);
-
-		üks.setOnAction(event -> {//valitase
-			Arvutustehted arvutus = new Arvutustehted();
-			Tase.setTase(1);
-			peaLava.hide();
-			Mängi.alustaMängu(arvutus, Tase.getTase(), nimi.toString());
-			ekraan(peaLava, arvutus);
-
-			//Tase.esimeneTase(new Arvutustehted(),nimi.toString());
-
-		});
-		kaks1.setOnAction(event -> {//valitase
-			Arvutustehted arvutus = new Arvutustehted();
-			Tase.setTase(2);
-			peaLava.hide();
-			Mängi.alustaMängu(arvutus, Tase.getTase(), nimi.toString());
-			ekraan(peaLava, arvutus);
-		});
-		kolm.setOnAction(event -> {//valitase
-			Arvutustehted arvutus = new Arvutustehted();
-			Tase.setTase(3);
-			peaLava.hide();
-			Mängi.alustaMängu(arvutus, Tase.getTase(), nimi.toString());
-			ekraan(peaLava, arvutus);
-		});
-		lõpp.setOnAction(event -> {Platform.exit();
-
-		});
-
-
-		Scene stseenA=new Scene(miski);
-		peaLava.setTitle("Peast Arvutamine");  // lava tiitelribale pannakse tekst
-		peaLava.setScene(stseenA);
-		peaLava.setResizable(false);
-		peaLava.show();  // lava tehakse nÃ¤htavaks
-
-	}
-	public static void main(String[] args) {
-		launch(args);
-	}
-}
-
-import java.util.ArrayList;
-
-//import java.util.Scanner;
-
-public class Mängi extends Tase{ //Klassi Tase alamklass.
-
-	public Mängi(int tase) {
-		super(tase);
-	}
-
-	public static void alustaMängu(Arvutustehted arvutus, int valitudTase,  String sb){
-
-		if (valitudTase == 1){ //Mäng algab esimeselt tasemelt.
-
-			if (arvutus.getÕiged() < 3){ //Arvutustehted esimesel tasemel, kuni õigeid on vähem kui kolm.
-				esimeneTase(arvutus,sb);			
-			}
-
-			else if (arvutus.getÕiged() < 10){//Arvutustehted teisel tasemel, kuni õigeid on vähem kui kümme.
-				teineTase(arvutus,sb);
-			}
-
-			else if (arvutus.getÕiged() >= 10){//Arvutustehted kolmandal tasemel alates kümnendast õigest vastusest.
-				kolmasTase(arvutus,sb);
-			}
-		}
-
-		else if (valitudTase == 2){ // Mäng algab teiselt tasemelt.
-			if (arvutus.getÕiged() < 7){
-				teineTase(arvutus,sb);
-			}
-
-			else if (arvutus.getÕiged() >= 7){
-				kolmasTase(arvutus,sb);
-			}
-
-		}
-
-		else if (valitudTase == 3){ //Mäng algab kolmandalt tasemelt.
-			kolmasTase(arvutus,sb);
-		}
-
-	}
-
-	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sb){ //Kasutajaga suhtlemine.
-		try{
-		int vastus =Integer.parseInt(teheJaVastus.get(1));
-		int sisestus = Integer.parseInt(sb);
-		System.out.println(vastus + " " + sisestus);
-		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sb))); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
-		System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
-		System.out.println(", Valesid vastuseid: " + tehe.getValed());}
-		catch (NumberFormatException e){
-			System.out.println("Vastus peab olema number!");
-		}
-		
-		alustaMängu(new Arvutustehted(), getTase(), sb);
-/*		Scanner scan = new Scanner(System.in);
-		if(scan.hasNextInt()==false){ // Kontrollib, kas sisestus on int tüüpi ning kui ei ole siis mäng lõpetatakse.
-			System.out.println("Mäng on lõpetatud.");
-			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
-			System.out.println(", Valesid vastuseid: " + tehe.getValed());
-
-		}
-		else{
-			int taisarv = scan.nextInt();
-			tehe.annaPunkt(tehe.vastuseKontroll(taisarv)); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
-			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
-			System.out.println(", Valesid vastuseid: " + tehe.getValed());
-			if (tehe.getValed()==5){ //Tingimus, millal mäng peatakse.
-				System.out.println("Valesid vastuseid on 5. Mäng lõpetatud.");
-				scan.close();
-				return;}
-			if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3 && getTase() == 1)|| //Üleminek esimeselt teisele tasemele.
-					(tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 10 && getTase() == 1)){ //Üleminek teiselt kolmandale tasemele.
-				// Kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte, kui mängu alustati esimeselt tasemelt.
-				System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // Väljastab selle ainult siis, kui viimane vastus oli õige.
-			}
-			else if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 7 && getTase() == 2){
-				// Kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte, kui mängu alustati teiselt tasemelt.
-				System.out.println("Palju õnne, jõudsite järgmisele tasemele!");
-			}
-			alustaMängu(tehe, getTase()); //Meetodit kutsutakse nii kaua välja, kuni mängija otsustab mängu lõpetada või ta on vastanud viis korda valesti.
-		}
-		scan.close();*/
-	}
-
-}
-
-_____________________________________________________
-//Tegin miskit veel, aga see ka ikka ei toimi
+//Ei tööta kui koos kasutada nuppe ja enter klahvi. 
+//Proovisin seda punkti süsteemi ka teha, see ka ei tööta, loendab nii kaua kuni ainult ühele juurde liidetakse. 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -716,3 +362,199 @@ public class Arvutustehted extends Punktid{ //Arvutustehted on klassi Punktid al
 		}
 	}
 }
+
+import java.util.ArrayList;
+
+//import java.util.Scanner;
+
+public class Mängi extends Tase{ //Klassi Tase alamklass.
+
+	public Mängi(int tase) {
+		super(tase);
+	}
+
+	public static void alustaMängu(Arvutustehted arvutus, int valitudTase,  String sb){
+
+		if (valitudTase == 1){ //Mäng algab esimeselt tasemelt.
+
+			if (arvutus.getÕiged() < 3){ //Arvutustehted esimesel tasemel, kuni õigeid on vähem kui kolm.
+				esimeneTase(arvutus,sb);			
+			}
+
+			else if (arvutus.getÕiged() < 10){//Arvutustehted teisel tasemel, kuni õigeid on vähem kui kümme.
+				teineTase(arvutus,sb);
+			}
+
+			else if (arvutus.getÕiged() >= 10){//Arvutustehted kolmandal tasemel alates kümnendast õigest vastusest.
+				kolmasTase(arvutus,sb);
+			}
+		}
+
+		else if (valitudTase == 2){ // Mäng algab teiselt tasemelt.
+			if (arvutus.getÕiged() < 7){
+				teineTase(arvutus,sb);
+			}
+
+			else if (arvutus.getÕiged() >= 7){
+				kolmasTase(arvutus,sb);
+			}
+
+		}
+
+		else if (valitudTase == 3){ //Mäng algab kolmandalt tasemelt.
+			kolmasTase(arvutus,sb);
+		}
+
+	}
+
+	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sb){ //Kasutajaga suhtlemine.
+		try{
+		int vastus =Integer.parseInt(teheJaVastus.get(1));
+		int sisestus = Integer.parseInt(sb);
+		System.out.println(vastus + " " + sisestus);
+		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sb))); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
+		System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+		System.out.println(", Valesid vastuseid: " + tehe.getValed());}
+		catch (NumberFormatException e){
+			System.out.println("Vastus peab olema number!");
+		}
+		
+		alustaMängu(new Arvutustehted(tehe.getÕiged(), tehe.getValed()), getTase(), sb);
+/*		Scanner scan = new Scanner(System.in);
+		if(scan.hasNextInt()==false){ // Kontrollib, kas sisestus on int tüüpi ning kui ei ole siis mäng lõpetatakse.
+			System.out.println("Mäng on lõpetatud.");
+			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println(", Valesid vastuseid: " + tehe.getValed());
+
+		}
+		else{
+			int taisarv = scan.nextInt();
+			tehe.annaPunkt(tehe.vastuseKontroll(taisarv)); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
+			System.out.print("Õigeid vastuseid: " + tehe.getÕiged());
+			System.out.println(", Valesid vastuseid: " + tehe.getValed());
+			if (tehe.getValed()==5){ //Tingimus, millal mäng peatakse.
+				System.out.println("Valesid vastuseid on 5. Mäng lõpetatud.");
+				scan.close();
+				return;}
+			if ((tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 3 && getTase() == 1)|| //Üleminek esimeselt teisele tasemele.
+					(tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 10 && getTase() == 1)){ //Üleminek teiselt kolmandale tasemele.
+				// Kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte, kui mängu alustati esimeselt tasemelt.
+				System.out.println("Palju õnne, jõudsite järgmisele tasemele!"); // Väljastab selle ainult siis, kui viimane vastus oli õige.
+			}
+			else if (tehe.vastuseKontroll(taisarv) == true && tehe.getÕiged() == 7 && getTase() == 2){
+				// Kontrollib, kas järgmisele tasemele jõudmiseks on piisavalt punkte, kui mängu alustati teiselt tasemelt.
+				System.out.println("Palju õnne, jõudsite järgmisele tasemele!");
+			}
+			alustaMängu(tehe, getTase()); //Meetodit kutsutakse nii kaua välja, kuni mängija otsustab mängu lõpetada või ta on vastanud viis korda valesti.
+		}
+		scan.close();*/
+	}
+
+}
+
+public class Punktid{
+	private int õiged; 
+	private int valed;
+	
+	public int getÕiged() {
+		return õiged;
+	}
+	public void setÕiged(int õiged) {
+		this.õiged = õiged;
+	}
+	public int getValed() {
+		return valed;
+	}
+	public void setValed(int valed) {
+		this.valed = valed;
+	} 
+}
+public class Tase{
+	protected static int tase; //Staatiline, et saaks kasutada selles klassis klassi Mängi meetodit vastamine().
+	
+	public Tase(int tase){
+		Tase.tase=tase;
+	}
+/*	public void valiTase(){ //Kasutaja saab taseme valida.
+		Scanner scan = new Scanner(System.in);
+		
+		if (scan.hasNextInt() == false){ //Kontrollib, kas sisestus on int tüüpi.
+			System.out.println("Mäng lõpetatud.");
+
+		}
+		else{
+			int valik = scan.nextInt();
+			if (valik < 1 || valik > 3){ //Kontrollib, kas sisestus on õiges vahemikus.
+					System.out.print("Palun sisestage number ühest kolmeni: ");
+					valiTase();
+				}
+			else{
+				tase = valik;
+				Mängi.alustaMängu(new Arvutustehted(), tase); //Alustame mängu.
+			}
+		}
+		scan.close();
+		
+	}*/
+
+	public static int getTase() {
+		return tase;
+	}
+	
+	public static void setTase(int tase){
+		Tase.tase = tase;
+	}
+	
+	public static void esimeneTase(Arvutustehted arvutus,  String sb){
+		int arv = (int) Math.round(Math.random()*1+1); //Tehte valimiseks arv 1 või 2.
+		if (arv == 1){
+			arvutus.moodustaLiitmine(0,10 ); //Moodustatakse liitmistehe.
+			//Mängi.vastamine(arvutus,sb); //Kasutaja vastamine.
+		}
+		else if (arv==2) {
+			arvutus.moodustaLahutamine(0, 10);
+			//Mängi.vastamine(arvutus,sb);
+		}
+	}
+	
+	public static void teineTase(Arvutustehted arvutus, String sb){
+		int arv = (int) Math.round(Math.random()*3+1);
+		if (arv == 1){
+			arvutus.moodustaLiitmine(10, 100);
+			//Mängi.vastamine(arvutus,sb);
+		}
+		else if (arv==2) {
+			arvutus.moodustaLahutamine(10, 100);
+			//Mängi.vastamine(arvutus,sb);
+		}
+		else if (arv==3){
+			arvutus.moodustaKorrutamine(0, 10);
+			//Mängi.vastamine(arvutus,sb);
+		}
+		else if (arv==4){
+			arvutus.moodustaJagamine(0, 100);
+			//Mängi.vastamine(arvutus,sb);
+		}
+	}
+	
+	public static void kolmasTase(Arvutustehted arvutus, String sb){
+		int arv = (int) Math.round(Math.random()*3+1);
+		if (arv == 1){
+			arvutus.moodustaLiitmine(100, 1000);
+			//Mängi.vastamine(arvutus,sb);
+		}
+		else if (arv==2) {
+			arvutus.moodustaLahutamine(100, 1000);
+			//Mängi.vastamine(arvutus,sb);
+		}
+		else if (arv==3){
+			arvutus.moodustaKorrutamine(10, 100);
+			//Mängi.vastamine(arvutus,sb);
+		}
+		else if (arv==4){
+			arvutus.moodustaJagamine(0, 1000);
+			//Mängi.vastamine(arvutus,sb);
+		}
+	}
+}
+
