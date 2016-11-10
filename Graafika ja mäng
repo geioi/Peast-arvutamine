@@ -1,5 +1,17 @@
-//Ei tööta kui koos kasutada nuppe ja enter klahvi. 
-//Proovisin seda punkti süsteemi ka teha, see ka ei tööta, loendab nii kaua kuni ainult ühele juurde liidetakse. 
+//Parandasin ära enteri vajutamise, sundisin programmi panema alati fookuse text fieldile peale igat vajutust,
+//kuna vastasel juhul jäi fookus numbrinupule ja sellepärast ei töötanud.
+
+//Punktisüsteemi ei oskagi praegu parandada, aga märkasin ühte asja - kui vastata järjest õigesti/valesti,
+//siis ta jätkab lugemist õigesti, nulli läheb kõik siis, kui eelmine vastus oli vale/õige, ning
+//uus vastus on õige/vale. Niiet, kuidagi tuleb sellele pihta saada, mis seal toimub.
+
+//Praegu sai muudatusi tehtud ainult GraafikaAken klassis, muu jäi kõik samaks.
+
+
+
+
+
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -22,6 +34,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GraafikaAken extends Application {
+	
+	public void okVajutatud(Stage ekraan, Arvutustehted arvutus, StringBuilder sisestus, TextField e){
+		if (sisestus.equals("")) {
+			sisestus.append(Integer.parseInt(e.getText()));
+			System.out.println("lisasin numbri");
+		}
+		Mängi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString());
+		Arvutustehted uusArvutus = new Arvutustehted(arvutus.getÕiged(), arvutus.getValed());
+		Mängi.alustaMängu(uusArvutus, Tase.getTase(), sisestus.toString());
+		ekraan(ekraan, uusArvutus);
+	}
 	public void ekraan (Stage ekraan, Arvutustehted arvutus){
 
 		StringBuilder sisestus = new StringBuilder();
@@ -103,6 +126,8 @@ public class GraafikaAken extends Application {
 				n1.setOnAction(event -> {
 					sisestus.append(number);
 					e.setText(sisestus.toString());
+					e.requestFocus();
+					e.selectEnd();
 				});
 
 			}
@@ -112,6 +137,8 @@ public class GraafikaAken extends Application {
 				n1.setOnAction(event -> {
 					sisestus.append(number);
 					e.setText(sisestus.toString());
+					e.requestFocus();
+					e.selectEnd();
 				});
 			}
 			else{
@@ -120,6 +147,8 @@ public class GraafikaAken extends Application {
 				n1.setOnAction(event -> {
 					sisestus.append(number);
 					e.setText(sisestus.toString());
+					e.requestFocus();
+					e.selectEnd();
 				});
 			}
 		}
@@ -142,18 +171,24 @@ public class GraafikaAken extends Application {
 			if (sisestus.length() < 1){
 				sisestus.append("-");
 				e.setText(sisestus.toString());
+				e.requestFocus();
+				e.selectEnd();
 			}
 		});
 		n0.setOnAction(event -> {
 			if (sisestus.length() > 0){
 				sisestus.deleteCharAt(sisestus.length()-1);
 				e.setText(sisestus.toString());
+				e.requestFocus();
+				e.selectEnd();
 			}
 		});
 
 		nn.setOnAction(event -> {
 			sisestus.append("0");
 			e.setText(sisestus.toString());
+			e.requestFocus();
+			e.selectEnd();
 		});
 
 		nm.setOnAction(event -> {sisestus.setLength(0); e.setText(sisestus.toString());});
@@ -163,6 +198,8 @@ public class GraafikaAken extends Application {
 		ok.setPrefSize(60,30);
 		x1.getChildren().add(ok);
 		ok.setOnAction(event-> {
+			okVajutatud(ekraan, arvutus, sisestus, e);
+/*			
 			if (sisestus.equals(null)) {
 				sisestus.append(e.getCharacters());
 			}
@@ -172,25 +209,39 @@ public class GraafikaAken extends Application {
 			Arvutustehted uusArvutus = new Arvutustehted(arvutus.getÕiged(), arvutus.getValed());
 			Mängi.alustaMängu(uusArvutus, Tase.getTase(), sisestus.toString());
 			ekraan(ekraan, uusArvutus);
-
+*/
+		
 		});
 		e.setOnKeyPressed(event ->{
+			
 			if (event.getCode().equals(KeyCode.ENTER)){
-				sisestus.append(e.getCharacters());
+				okVajutatud(ekraan, arvutus, sisestus, e);
+				
+				/*sisestus.append(e.getCharacters());
 				Mängi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString());
-				//sisestus.setLength(0); 
-				//e.setText(sisestus.toString());
+				sisestus.setLength(0); 
+				e.setText(sisestus.toString());
 				Arvutustehted uusArvutus = new Arvutustehted(arvutus.getÕiged(), arvutus.getValed());
 				Mängi.alustaMängu(uusArvutus, Tase.getTase(), sisestus.toString());
-				ekraan(ekraan, uusArvutus);}
-			if (event.getCode().equals(KeyCode.BACK_SPACE)){
+				ekraan(ekraan, uusArvutus);*/
+				
+			}
+			else if (event.getCode().equals(KeyCode.BACK_SPACE)){
 				if (sisestus.length() > 0){
 					sisestus.deleteCharAt(sisestus.length()-1);
 					e.setText(sisestus.toString());
 				}
 			}
-		}
-				);
+			else{
+				try{
+					if (Integer.parseInt(event.getText()) >= 0 && Integer.parseInt(event.getText()) <= 9){
+						sisestus.append(Integer.parseInt(event.getText()));
+					}
+				} catch(NumberFormatException exc){
+					System.out.println("Sisestati täht");
+					sisestus.append(event.getText());}
+			}
+		});
 
 		Button lõpeta = new Button("Lõpeta");
 		lõpeta.setPrefSize(60,30);
@@ -204,7 +255,8 @@ public class GraafikaAken extends Application {
 		ekraan.setTitle("Peast Arvutamine");  // lava tiitelribale pannakse tekst
 		ekraan.setScene(stseen1);  // lavale lisatakse stseen
 		ekraan.setResizable(false);
-		ekraan.show();  // lava tehakse nÃ¤htavaks
+		e.requestFocus();
+		ekraan.show();  // lava tehakse nähtavaks
 
 	}
 	@Override
