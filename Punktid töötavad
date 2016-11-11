@@ -29,7 +29,7 @@ public class GraafikaAken extends Application {
 	public void okVajutatud(Stage ekraan, Arvutustehted arvutus, StringBuilder sisestus, TextField e){
 		if (sisestus.equals("")) {
 			sisestus.append(Integer.parseInt(e.getText()));
-			//System.out.println("lisasin numbri");
+			System.out.println("lisasin numbri");
 		}
 		Mängi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString());
 		Arvutustehted uusArvutus = new Arvutustehted(arvutus.getÕigeteArv(), arvutus.getValedeArv());
@@ -173,6 +173,10 @@ public class GraafikaAken extends Application {
 				e.requestFocus();
 				e.selectEnd();
 			}
+			else{
+				e.requestFocus();
+			}
+
 		});
 
 		nn.setOnAction(event -> {
@@ -182,7 +186,12 @@ public class GraafikaAken extends Application {
 			e.selectEnd();
 		});
 
-		nm.setOnAction(event -> {sisestus.setLength(0); e.setText(sisestus.toString());});
+		nm.setOnAction(event -> {
+			sisestus.setLength(0); 
+			e.setText(sisestus.toString());
+			e.requestFocus();
+			e.selectEnd();
+		});
 
 		Button ok = new Button ("OK");
 		ok.setTextFill(Color.GREEN);
@@ -201,8 +210,8 @@ public class GraafikaAken extends Application {
 			}
 			else if (event.getCode().equals(KeyCode.BACK_SPACE)){
 				if (sisestus.length() > 0){
+					n0.arm();
 					sisestus.deleteCharAt(sisestus.length()-1);
-					e.setText(sisestus.toString());
 				}
 			}
 			else{
