@@ -1,7 +1,16 @@
-//Sain punkti töötamise korda. Meil ei ole eraldi klassi punktid vaja. Tegin hoopis nii.
-//Klass Tase jääb samaks, aga klassi Punktid ei kasutagi.
-//Nüüd kui punktid vist töötavad, siis tehted ka muutuvad. Jagamine on minu arust liiga keeruline, peame selle vahemiku üle vaatama. 
-//Siis nüüd on valede vastuste salvestamine faili vaja teha??
+//Muudatusi tegin ainult klassi Mängi.
+
+//Tegin mingisuguse faili kirjutamise meetodi.
+//See pole kõige tõhusam, sest peab iga kord avama ja sulgema faili.
+//Üks idee oleks teha BufferedReader'iga, sellega kirjutada kõik puhvrisse ja siis korraga faili kanda
+//aga seda üritab alles siis, kui kõik muu täielikult valmis.
+
+//Ma ei ole suutnud välja mõelda formaati, mis kujul peaks selle info faili kandma
+//Praegu tegin lihtsalt append abil, eraldades valed vastused semikooloniga.
+
+//Faili teed pole määratud, seega tekib see samasse kausta, kus projekt asub.
+
+
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -406,12 +415,12 @@ public class Arvutustehted {//extends Punktid{ //Arvutustehted on klassi Punktid
 	}
 }
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
-//import java.util.Scanner;
-
-public class Mängi extends Tase{ //Klassi Tase alamklass.
-
+public class Mängi extends Tase{
 	public Mängi(int tase) {
 		super(tase);
 	}
@@ -449,12 +458,32 @@ public class Mängi extends Tase{ //Klassi Tase alamklass.
 		}
 
 	}
+	
+	public static void kirjutaFaili(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sisestus) throws Exception{
+		File file = new File("testFile1.txt");
 
-	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sb){ //Kasutajaga suhtlemine.
+		//kontrollib, kas fail oli eelnevalt olemas, kui oli ning mängu alustati uuesti, siis tühjendatakse see
+		if (!file.createNewFile() && file.length() != 0 && tehe.getValedeArv() == 0){
+			RandomAccessFile raf = new RandomAccessFile(file, "rw");
+			raf.setLength(0);
+			raf.close();
+		}
+
+		FileWriter writer = new FileWriter(file, true);
+		//appendib tekstile otsa
+		writer.append("Tehe: " + teheJaVastus.get(0) + " Teie vastus: " + sisestus + " Õige vastus: " + teheJaVastus.get(1) + ";");
+		writer.close();
+	}
+
+	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sb) throws Exception{ //Kasutajaga suhtlemine.
 		try{
 		int vastus =Integer.parseInt(teheJaVastus.get(1));
 		int sisestus = Integer.parseInt(sb);
 		System.out.println(vastus + " " + sisestus);
+		
+		if (!tehe.vastuseKontroll(Integer.parseInt(sb))){
+			kirjutaFaili(tehe, teheJaVastus, sb);
+		}
 		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sb))); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
 		System.out.print("Õigeid vastuseid: " + tehe.getÕigeteArv());
 		System.out.println(", Valesid vastuseid: " + tehe.getValedeArv());}
