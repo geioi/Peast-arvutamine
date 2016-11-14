@@ -249,7 +249,7 @@ public class GraafikaAken extends Application {
 
 		lõpeta.setOnAction(event -> {
 			Stage vastus = new Stage();
-			vastus.initModality(Modality.WINDOW_MODAL);
+			//vastus.initModality(Modality.WINDOW_MODAL); //See ei ole vajalik!
 
 			Label label = new Label();
 			Button okButton = new Button("Lõpeta");
