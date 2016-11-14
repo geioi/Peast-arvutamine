@@ -1,4 +1,8 @@
 //Graafika akent parandasin ja klassi mängi
+//Klassis  mängi tegin nii, et igal juhul luuakse uus fail ja vajadusel tühendatakse see, kuna kui muidu vastasin valesti ja uues 
+//ei vastanud siis näitas ikka, et vastasin valesti. 
+
+//Tegin kiitmise ka :) 
 
 import java.io.File;
 import java.io.FileNotFoundException;
