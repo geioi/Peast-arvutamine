@@ -137,17 +137,17 @@ public class GraafikaAken extends Application {
 		aluminePool.getChildren().add(gridPane);
 		aluminePool.setAlignment(Pos.CENTER);
 
-		for (int i = 1; i<10; i++){
+		for (int i = 1; i < 10; i++){
 			int number = i;
 			
 			Button n1 = new Button(new Integer(i).toString());
 			n1.setFocusTraversable(false);
 			n1.setTextFill(Color.BLUE);
 			n1.setPrefSize(60,30);
-			if (i<4) {
+			if (i < 4) {
 				x3.getChildren().add(n1);
 			}
-			else if (i<7) {
+			else if (i < 7) {
 				x2.getChildren().add(n1);
 			}
 			else {
@@ -215,7 +215,7 @@ public class GraafikaAken extends Application {
 				}
 			}
 			else if (event.getCode().equals(KeyCode.DELETE)){ //Kui vajutatakse klahvi delete.
-				if (sisestus.length() > 0){ 
+				if (sisestus.length() > 0 && tekstiväli.getCaretPosition() != sisestus.length()){ 
 					sisestus.deleteCharAt(tekstiväli.getCaretPosition());
 					//Sisestusest kustutatakse element vastavalt kursori asukohale.
 				}
@@ -296,7 +296,7 @@ public class GraafikaAken extends Application {
 		ScrollPane scroll = new ScrollPane();
 		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED); //Vastavalt ekraani suuruse muutmisele tekivad vajadusel kerimisribad.
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		StringBuilder tühiSb = new  StringBuilder();
+		StringBuilder tühiSb = new StringBuilder();
 		VBox kõikNupud = new VBox(10);
 		HBox tasemeNupud = new HBox(10);
 		Label mänguõpetus = new Label();
@@ -344,7 +344,7 @@ public class GraafikaAken extends Application {
 		});
 		lõpp.setOnAction(event -> Platform.exit());
 
-		Scene stseenA=new Scene(scroll);
+		Scene stseenA = new Scene(scroll);
 		peaLava.setTitle("Peast arvutamine");  // lava tiitelribale pannakse tekst
 		peaLava.setScene(stseenA);
 		peaLava.show();  // lava tehakse nähtavaks
