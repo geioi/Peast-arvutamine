@@ -27,43 +27,58 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class GraafikaAken extends Application {
-	public String valedVastused(int √µiged, int valed) throws FileNotFoundException{ //Meetod, millega esitatakse tulemused ekraanile. Vajadusel failist.
-		File valedvastused= new File("testFile1.txt"); //Programmi poolt loodud faili m√§√§ramine, millest tulemusi loetakse. 
+	
+	public String valedVastused(int ıiged, int valed) throws FileNotFoundException{ //Meetod, millega esitatakse tulemused ekraanile. Vajadusel failist.
+		File valedvastused= new File("Valed Vastused.txt"); //Programmi poolt loodud faili m‰‰ramine, millest tulemusi loetakse. 
 		Scanner tekst = new Scanner(valedvastused);
-		String vale="Te ei vastanud √ºhelegi tehtele!";
-		if (√µiged>0 && valed==0){ //Kontroll, kas m√§ngija on √ºldse m√§nginud. 
-			vale="Olite tubli! Vastasite k√µigile tehetele √µigesti.";}
+		String vale = "Te ei vastanud ¸helegi tehtele!";
+		if (ıiged > 0 && valed == 0){ //Kontroll, kas m‰ngija on ¸ldse m‰nginud. 
+			vale = "Olite tubli! Vastasite kıigile tehetele ıigesti.";}
 		while (tekst.hasNextLine()){
 			String rida = tekst.nextLine();
-			vale=rida.replace(";", "\n");
+			vale = rida.replace(";", "\n");
 		}
 		tekst.close();
 		return vale;
 	}
-	public void okVajutatud(Stage ekraan, Arvutustehted arvutus, StringBuilder sisestus, File file) { //Meetod, mis rakendub, kui vajutatakse OK nuppu v√µi enter.
-		try{//Failiga tekkivad probleemid p√º√ºtakse kinni.
-			Integer.parseInt(sisestus.toString()); //Sisestus ei ole number, siis tehe j√§√§b samaks.
-			M√§ngi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString(), file); //Sisestatud vastuse kontroll, kasutatakse klassi M√§ngi meetodit vastamine.
-			Arvutustehted uusArvutus = new Arvutustehted(arvutus.get√ïigeteArv(), arvutus.getValedeArv()); //Kannab √ºle √µigete ja valede vastuste arvu.
-			M√§ngi.alustaM√§ngu(uusArvutus, Tase.getTase(), sisestus.toString()); //Moodustatakse uus arvutustehe, millele kasutaja saab vastata.
+	
+	public void okVajutatud(Stage ekraan, Arvutustehted arvutus, StringBuilder sisestus, File file) { //Meetod, mis rakendub, kui vajutatakse OK nuppu vıi enter.
+		try{//Failiga tekkivad probleemid p¸¸takse kinni.
+			Integer.parseInt(sisestus.toString()); //Sisestus ei ole number, siis tehe j‰‰b samaks.
+			M‰ngi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString(), file); //Sisestatud vastuse kontroll, kasutatakse klassi M‰ngi meetodit vastamine.
+			Arvutustehted uusArvutus = new Arvutustehted(arvutus.get’igeteArv(), arvutus.getValedeArv()); //Kannab ¸le ıigete ja valede vastuste arvu.
+			M‰ngi.alustaM‰ngu(uusArvutus, Tase.getTase(), sisestus.toString()); //Moodustatakse uus arvutustehe, millele kasutaja saab vastata.
 			ekraan(ekraan, uusArvutus, file); //Luuakse uus ekraan uue tehtega, millele kasutaja saab vastata. 
 		}
-		catch(NumberFormatException ev){
+		catch(NumberFormatException e){
 			ekraan(ekraan,arvutus, file); //Sama tehe nii kaua, kuni sisestus on arv.
 		}
-		catch(Exception event){ //Kui faili ei leita, siis sellest teavitatakse kasutajat.
+		catch(Exception e){ //Kui faili ei leita, siis sellest teavitatakse kasutajat.
 			System.out.println("Faili ei leitud!");
 		};
 
 	}
-	public void ekraan (Stage ekraan, Arvutustehted arvutus, File file){ //Meetod, milles toimub p√µhitegevus.
+	
+	public void kirjuta(TextField v‰li, int kursoriAsukoht, StringBuilder sisestus, String tekst){ //lisab etteantud asukohale sisestatud karakteri.
+		sisestus.insert(v‰li.getCaretPosition(), tekst);
+		v‰li.setText(sisestus.toString());
+		v‰li.positionCaret(kursoriAsukoht+1); //m‰‰ran, kuhu kursor peab minema p‰rast sisestust, vastasel juhul saab see v‰‰rtuseks 0.
+	}
+	
+	public void kustuta(TextField v‰li, int kursoriAsukoht, StringBuilder sisestus){ //kustutab antud kohalt karakteri.
+		sisestus.deleteCharAt(v‰li.getCaretPosition()-1);
+		v‰li.setText(sisestus.toString());
+		v‰li.positionCaret(kursoriAsukoht-1);
+	}
+	
+	public void ekraan(Stage ekraan, Arvutustehted arvutus, File file){ //Meetod, milles toimub pıhitegevus.
 
 		StringBuilder sisestus = new StringBuilder(); //Kasutaja sisestuse hoidmiseks. 
-		BorderPane Paan = new BorderPane(); //Ekraani paigutuse m√§√§ramiseks. 
-		TextField tekstiv√§li = new TextField(); //Kasutaja sisendi kuvamine.
+		BorderPane Paan = new BorderPane(); //Ekraani paigutuse m‰‰ramiseks. 
+		TextField tekstiv‰li = new TextField(); //Kasutaja sisendi kuvamine.
 
-		tekstiv√§li.setPrefSize(100, 60); //Tekstiv√§lja suuruse m√§√§ramine. 
-		tekstiv√§li.setFont(new Font("Arial", 20)); //Teksti suuruse ja stiili m√§√§ramine. 
+		tekstiv‰li.setPrefSize(100, 60); //Tekstiv‰lja suuruse m‰‰ramine. 
+		tekstiv‰li.setFont(new Font("Arial", 20)); //Teksti suuruse ja stiili m‰‰ramine. 
 
 		StackPane stack = new StackPane(); //Kuhja loomiseks. 
 		Rectangle rec = new Rectangle(190, 100, Color.WHITE); //Nelinurk, millel peale pannakse arvutustehe, mis on tekst.
@@ -72,50 +87,44 @@ public class GraafikaAken extends Application {
 		tehe.setFont(new Font("Arial", 30));
 		stack.getChildren().addAll(rec, tehe); //Lisatakse kuhjale elemendid.
 
-		HBox all= new HBox(); 
-		all.setPadding(new Insets(10, 10, 10, 10));
-		Paan.setCenter(all); //Horisontaalkasti lisame ekraani keskele.
+		HBox aluminePool = new HBox(); 
+		aluminePool.setPadding(new Insets(10, 10, 10, 10));
+		Paan.setCenter(aluminePool); //Horisontaalkasti lisame ekraani keskele.
 
 		GridPane gridPane = new GridPane();
 		gridPane.setVgap(10); 
 
-		Label √µiged = new Label("√ïiged: "); 
-		Label √µigedArv = new Label("0"); //√ïigete vastuste arvu kuvamine
+		Label ıiged = new Label("’iged: "); 
+		Label ıigedArv = new Label(Integer.toString(arvutus.get’igeteArv())); //’igete vastuste arvu kuvamine
 		Label valed = new Label("Valed: ");
-		Label valedArv = new Label("0"); //Valede vastuste arvu kuvamine
-		valedArv.setText(Integer.toString(arvutus.getValedeArv())); //√ïigete ja valede vastuste arvu muutmine vastavalt.
-		√µigedArv.setText(Integer.toString(arvutus.get√ïigeteArv()));
+		Label valedArv = new Label(Integer.toString(arvutus.getValedeArv())); //Valede vastuste arvu kuvamine
 
-		VBox √ºlemine = new VBox(5);
-		HBox kaks = new HBox(30);
-		HBox kaks_alumine = new HBox(30);
-		HBox √ºlemine_√ºlemine_vasak = new HBox(5);
-		HBox √ºlemine_√ºlemine_parem = new HBox(5);
-		HBox √ºlemine_alumine_vasak = new HBox(20);
-		HBox √ºlemine_alumine_parem = new HBox(20);
+		VBox ¸leminePool = new VBox(5);
+		HBox ıigedJaValedArv = new HBox(30);
+		HBox label’iged = new HBox(5);
+		HBox labelValed = new HBox(5);
+		HBox teheJaTekstiv‰li = new HBox(20);
 
-		kaks.getChildren().addAll(√ºlemine_√ºlemine_vasak, √ºlemine_√ºlemine_parem);
-		kaks_alumine.getChildren().addAll(√ºlemine_alumine_vasak, √ºlemine_alumine_parem);
-		√ºlemine.getChildren().addAll(kaks, kaks_alumine);
-		√ºlemine_√ºlemine_vasak.getChildren().addAll(√µiged, √µigedArv);
-		√ºlemine_√ºlemine_parem.getChildren().addAll(valed, valedArv);
-		√ºlemine_alumine_parem.getChildren().add(tekstiv√§li);
-		√ºlemine_alumine_vasak.getChildren().add(stack);
-		√ºlemine_alumine_vasak.setAlignment(Pos.CENTER_LEFT);
-		√ºlemine_alumine_parem.setAlignment(Pos.CENTER_RIGHT);
-		kaks.setAlignment(Pos.CENTER);
-		kaks_alumine.setAlignment(Pos.CENTER);
-		√ºlemine_√ºlemine_vasak.setAlignment(Pos.CENTER_LEFT);
-		√ºlemine_√ºlemine_parem.setAlignment(Pos.TOP_RIGHT);
-		Paan.setTop(√ºlemine); //Elementide lisamine ekraanile sobivas paigutuses. 
+		label’iged.getChildren().addAll(ıiged, ıigedArv);
+		labelValed.getChildren().addAll(valed, valedArv);
+		ıigedJaValedArv.getChildren().addAll(label’iged, labelValed);
+		teheJaTekstiv‰li.getChildren().addAll(stack, tekstiv‰li);
+		¸leminePool.getChildren().addAll(ıigedJaValedArv, teheJaTekstiv‰li);
+		
+		teheJaTekstiv‰li.setAlignment(Pos.CENTER_RIGHT);
+		ıigedJaValedArv.setAlignment(Pos.CENTER);
+		label’iged.setAlignment(Pos.CENTER_LEFT);
+		labelValed.setAlignment(Pos.TOP_RIGHT);
+		
+		Paan.setTop(¸leminePool); //Elementide lisamine ekraanile sobivas paigutuses. 
 
-		HBox x1=new HBox();
+		HBox x1 = new HBox();
 		x1.setSpacing(10);
-		HBox x2=new HBox();
+		HBox x2 = new HBox();
 		x2.setSpacing(10);
-		HBox x3=new HBox();
+		HBox x3 = new HBox();
 		x3.setSpacing(10);
-		HBox x4=new HBox();
+		HBox x4 = new HBox();
 		x4.setSpacing(10);
 		HBox x6 = new HBox();
 		x6.setSpacing(10);
@@ -125,163 +134,130 @@ public class GraafikaAken extends Application {
 		gridPane.add(x2,0,2);
 		gridPane.add(x3,0,3);
 		gridPane.add(x4,0,4);
-		all.getChildren().add(gridPane);
-		all.setAlignment(Pos.CENTER);
+		aluminePool.getChildren().add(gridPane);
+		aluminePool.setAlignment(Pos.CENTER);
 
-		for (int i=1; i<10; i++){
-			Button n1=new Button (new Integer(i).toString());
+		for (int i = 1; i<10; i++){
+			int number = i;
+			
+			Button n1 = new Button(new Integer(i).toString());
+			n1.setFocusTraversable(false);
 			n1.setTextFill(Color.BLUE);
 			n1.setPrefSize(60,30);
-			if (i<4){
+			if (i<4) {
 				x3.getChildren().add(n1);
-				int number = i;
-				n1.setOnAction(event -> {
-					sisestus.append(number);
-					tekstiv√§li.setText(sisestus.toString());
-					tekstiv√§li.requestFocus();
-					tekstiv√§li.selectEnd();
-				});
-
 			}
-			else if (i<7){
+			else if (i<7) {
 				x2.getChildren().add(n1);
-				int number = i;
-				n1.setOnAction(event -> {
-					sisestus.append(number);
-					tekstiv√§li.setText(sisestus.toString());
-					tekstiv√§li.requestFocus();
-					tekstiv√§li.selectEnd();
-				});
 			}
-			else{
+			else {
 				x1.getChildren().add(n1);
-				int number = i;
-				n1.setOnAction(event -> {
-					sisestus.append(number);
-					tekstiv√§li.setText(sisestus.toString());
-					tekstiv√§li.requestFocus();
-					tekstiv√§li.selectEnd();
-				});
 			}
+			n1.setOnAction(event -> kirjuta(tekstiv‰li, tekstiv‰li.getCaretPosition(), sisestus, String.valueOf(number)));
 		} //Numbri nuppude loomine ja ekraanile paigutamine.
 
-		Button miinus= new Button("-");
+		Button miinus = new Button("-");
 		miinus.setTextFill(Color.RED);
 		miinus.setPrefSize(60,30);
+		miinus.setFocusTraversable(false);
+		
 		x2.getChildren().add(miinus);
-		Button kustuta=new Button ("C");
+		Button kustuta = new Button ("C");
 		kustuta.setTextFill(Color.RED);
 		kustuta.setPrefSize(60,30);
-		Button nNull=new Button ("0");
+		kustuta.setFocusTraversable(false);
+		
+		Button nNull = new Button ("0");
 		nNull.setTextFill(Color.BLUE);
 		nNull.setPrefSize(60,30);
-		Button kustutaK√µik=new Button ("CE");
-		kustutaK√µik.setTextFill(Color.RED);
-		kustutaK√µik.setPrefSize(60,30);
-		x4.getChildren().addAll(kustuta,nNull,kustutaK√µik);
-
-		miinus.setOnAction(event ->{ //M√§√§ramine, mis juhtub, kui vajutatakse miinus nuppu.
-			if (sisestus.length() < 1){
-				sisestus.append("-");
-				tekstiv√§li.setText(sisestus.toString());
-				tekstiv√§li.requestFocus();
-				tekstiv√§li.selectEnd();
-			}
-		});
-		kustuta.setOnAction(event -> { //M√§√§ramine, mis juhtub, kui vajutatakse nuppu C.
-			if (sisestus.length() > 0){
-				sisestus.deleteCharAt(sisestus.length()-1);
-				tekstiv√§li.setText(sisestus.toString());
-				tekstiv√§li.requestFocus();
-				tekstiv√§li.selectEnd();
-			}
-			else{
-				tekstiv√§li.requestFocus(); //Fookuse tagasi seadmine.
-			}
-
-		});
-
-		nNull.setOnAction(event -> { //M√§√§ramine, mis juhtub, kui vajutatakse nuppu 0.
-			sisestus.append("0");
-			tekstiv√§li.setText(sisestus.toString());
-			tekstiv√§li.requestFocus();
-			tekstiv√§li.selectEnd();
-		});
-
-		kustutaK√µik.setOnAction(event -> { //M√§√§ramine, mis juhtub, kui vajutatakse nuppu CE.
-			sisestus.setLength(0); 
-			tekstiv√§li.setText(sisestus.toString());
-			tekstiv√§li.requestFocus();
-			tekstiv√§li.selectEnd();
-		});
-
+		nNull.setFocusTraversable(false);
+		
+		Button kustutaKıik = new Button ("CE");
+		kustutaKıik.setTextFill(Color.RED);
+		kustutaKıik.setPrefSize(60,30);
+		kustutaKıik.setFocusTraversable(false);
+		
 		Button ok = new Button ("OK");
 		ok.setTextFill(Color.GREEN);
 		ok.setPrefSize(60,30);
+		
 		x1.getChildren().add(ok);
+		x4.getChildren().addAll(kustuta, nNull, kustutaKıik);
 
-		ok.setOnAction(event-> { //M√§√§ratakse, mis juhtub, kui vajutatakse OK nuppu.
-			okVajutatud(ekraan, arvutus, sisestus, file); //Rakendatakse eelnevalt defineeritud meetodit. 
-
+		miinus.setOnAction(event ->{ //M‰‰ramine, mis juhtub, kui vajutatakse miinus nuppu.
+			if (sisestus.length() < 1){
+				kirjuta(tekstiv‰li, tekstiv‰li.getCaretPosition(), sisestus, "-");
+			}
 		});
-		tekstiv√§li.setOnKeyPressed(event ->{ //Klaviatuuri klahvide vajutamise tuvastamine.
+		kustuta.setOnAction(event -> { //M‰‰ramine, mis juhtub, kui vajutatakse nuppu C.
+			if (sisestus.length() > 0){
+				kustuta(tekstiv‰li, tekstiv‰li.getCaretPosition(), sisestus);
+			}
+		});
 
+		nNull.setOnAction(event -> kirjuta(tekstiv‰li, tekstiv‰li.getCaretPosition(), sisestus, "0")); //M‰‰ramine, mis juhtub, kui vajutatakse nuppu 0.
+
+		kustutaKıik.setOnAction(event -> { //M‰‰ramine, mis juhtub, kui vajutatakse nuppu CE.
+			sisestus.setLength(0); 
+			tekstiv‰li.setText(sisestus.toString());
+		});
+
+		ok.setOnAction(event -> okVajutatud(ekraan, arvutus, sisestus, file)); //OK vajutamisel rakendatakse eelnevalt defineeritud meetodit. 
+
+		tekstiv‰li.setOnKeyPressed(event ->{ //Klaviatuuri klahvide vajutamise tuvastamine.
 			if (event.getCode().equals(KeyCode.ENTER)){ //Kui vajutatakse enter klahvi.
 				okVajutatud(ekraan, arvutus, sisestus, file); //Rakendatakse OK nupu meetodit.
-
 			}
 			else if (event.getCode().equals(KeyCode.BACK_SPACE)){ //Kui vajutatakse kustustamise klahvi.
-				if (sisestus.length() > 0){ 
-					kustuta.arm(); //Rakendatakse nupu C omadusi.
-					sisestus.deleteCharAt(tekstiv√§li.getCaretPosition()-1);
+				if (sisestus.length() > 0){
+					sisestus.deleteCharAt(tekstiv‰li.getCaretPosition()-1);
 					//Sisestusest kustutatakse element vastavalt kursori asukohale.
 				}
 			}
 			else if (event.getCode().equals(KeyCode.DELETE)){ //Kui vajutatakse klahvi delete.
 				if (sisestus.length() > 0){ 
-					kustuta.arm(); //Rakendatakse nupu C omadusi.
-					sisestus.deleteCharAt(tekstiv√§li.getCaretPosition());
+					sisestus.deleteCharAt(tekstiv‰li.getCaretPosition());
 					//Sisestusest kustutatakse element vastavalt kursori asukohale.
 				}
 			}
 			else{
-				sisestus.insert(tekstiv√§li.getCaretPosition(),event.getText()); //Vastasel juhul lisatakse sisestus StringBuilderisse.
-				//Sisestus m√§√§ratakse vastavalt kursori asukohale. 
+				sisestus.insert(tekstiv‰li.getCaretPosition(),event.getText()); //Vastasel juhul lisatakse sisestus StringBuilderisse.
+				//Sisestus m‰‰ratakse vastavalt kursori asukohale. 
 			}
 		});
 
-		Button l√µpeta = new Button("L√µpeta");
-		l√µpeta.setPrefSize(60,30);
-		x6.getChildren().add(l√µpeta);
+		Button lıpeta = new Button("Lıpeta");
+		lıpeta.setPrefSize(60,30);
+		x6.getChildren().add(lıpeta);
 		x6.setAlignment(Pos.TOP_CENTER);
 		Paan.setBottom(x6);
 
-		l√µpeta.setOnAction(event -> { //M√§√§ratakse, mis juhtub, kui vajutatakse nuppu l√µpeta.
+		lıpeta.setOnAction(event -> { //M‰‰ratakse, mis juhtub, kui vajutatakse nuppu lıpeta.
 			Stage vastus = new Stage(); //Luuakse uus lava.
-			Label label = new Label();
-			Button l√µpetaP√§riselt = new Button("L√µpeta");
+			Label kuvaValed = new Label();
+			Button lıpetaP‰riselt = new Button("Lıpeta");
 			Button uuesti = new Button("Alusta uuesti");
 			try{
-				label.setText(valedVastused(arvutus.√µigeteArv, arvutus.valedeArv)); //Rakendatakse eelnevalt defineeritud meetodit.
+				kuvaValed.setText(valedVastused(arvutus.ıigeteArv, arvutus.valedeArv)); //Rakendatakse eelnevalt defineeritud meetodit.
 				//Valede tehete ja vastuste kuvamiseks. 
 			}
-			catch(Exception ee){
+			catch(Exception e){
 				System.out.println("Faili ei leitud!");
 			}
-			l√µpetaP√§riselt.setOnAction( event1->Platform.exit());
+			lıpetaP‰riselt.setOnAction(event1 -> Platform.exit());
 
-			uuesti.setOnAction(event12-> { //Nupp uuesti v√µimaldab m√§ngu taasalustada. 
+			uuesti.setOnAction(event12-> { //Nupp uuesti vıimaldab m‰ngu taasalustada. 
 				vastus.hide();
 				ekraan.setResizable(true);
 				start(ekraan);
 			});
 			FlowPane pane = new FlowPane(10,10);
 			pane.setAlignment(Pos.CENTER);
-			pane.getChildren().addAll(l√µpetaP√§riselt, uuesti);
+			pane.getChildren().addAll(lıpetaP‰riselt, uuesti);
 
 			VBox vBox = new VBox(10);
 			vBox.setAlignment(Pos.CENTER);
-			vBox.getChildren().addAll(label, pane);
+			vBox.getChildren().addAll(kuvaValed, pane);
 			ScrollPane scroll = new ScrollPane(vBox);
 
 			scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED); //Vastavalt ekraani suuruse muutmisele tekivad vajadusel kerimisribad.
@@ -297,16 +273,16 @@ public class GraafikaAken extends Application {
 		Scene stseen1 = new Scene(Paan,  300, 380, Color.SNOW);  // luuakse stseen  
 		ekraan.setTitle("Peast arvutamine");  // lava tiitelribale pannakse tekst
 		ekraan.setScene(stseen1);  // lavale lisatakse stseen
-		ekraan.setResizable(false); //M√§ngu ekraani suurust ei saa muuta.
-		tekstiv√§li.requestFocus(); //Kursor l√§heb automaatsel sisestuse v√§ljale. 
-		ekraan.show();  // lava tehakse n√§htavaks
+		ekraan.setResizable(false); //M‰ngu ekraani suurust ei saa muuta.
+		tekstiv‰li.requestFocus(); //Kursor l‰heb automaatselt sisestuse v‰ljale. 
+		ekraan.show();  // lava tehakse n‰htavaks
 
 	}
 
 	@Override
 	public void start(Stage peaLava) { //Alustamise ekraan.
-		File file = new File("testFile1.txt"); 
-		//Kontrollib, kas fail oli eelnevalt olemas, kui oli, siis see t√ºhjendatakse, vastasel juhul luuakse uus.
+		File file = new File("Valed Vastused.txt"); 
+		//Kontrollib, kas fail oli eelnevalt olemas, kui oli, siis see t¸hjendatakse, vastasel juhul luuakse uus.
 		try {
 			if (!file.createNewFile() && file.length() != 0){
 				RandomAccessFile raf = new RandomAccessFile(file, "rw");
@@ -314,66 +290,64 @@ public class GraafikaAken extends Application {
 				raf.close();
 			}
 		} catch (Exception e) {
-			System.out.println("Faili ei leitud v√µi ei olnud v√µimalik faili kirjutada!");
+			System.out.println("Faili ei leitud vıi ei olnud vıimalik faili kirjutada!");
 		} 
 
 		ScrollPane scroll = new ScrollPane();
 		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED); //Vastavalt ekraani suuruse muutmisele tekivad vajadusel kerimisribad.
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		StringBuilder nimi =new  StringBuilder();
-		VBox k√µikNupud=new VBox(10);
-		HBox tasemeNupud=new HBox(10);
-		Label label = new Label();
-		label.setText("K√§esolev programm on m√µeldud peast arvutamise treenimiseks.\n"
+		StringBuilder t¸hiSb = new  StringBuilder();
+		VBox kıikNupud = new VBox(10);
+		HBox tasemeNupud = new HBox(10);
+		Label m‰nguıpetus = new Label();
+		m‰nguıpetus.setText("K‰esolev programm on mıeldud peast arvutamise treenimiseks.\n"
 				+ "Programm esitab tehte, millele peate vastama. \n"
 				+ "Vastamiseks saate kasutada nii numbrinuppe kui ka klaviatuuri. \n"
-				+ "M√§ngul on kolm raskusastet. M√§ngu alustades saate valida endale sobiva\n"
-				+ "raskusastme. M√§ngus muutuvad raskusastmed vastavalt √µigete vastuste arvule. \n"
-				+ "M√§ngu l√µppedes n√§itab programm Teile tehteid ja vastusied, millele vastasite valesti. \n"
-				+ "M√§ngu l√µpetamiseks vajutage nuppu \"L√µpeta\".\n"
-				+ "M√§ngu alustamiseks valige tase."); //M√§ngu √µpetus. 
-		label.setTextAlignment(TextAlignment.CENTER);
-		Button √ºks = new Button("Tase 1");
-		Button kaks1 = new Button ("Tase 2");
-		Button kolm = new Button ("Tase 3");
-		Button l√µpp = new Button("L√µpeta");
-		tasemeNupud.getChildren().addAll(√ºks, kaks1, kolm);
+				+ "M‰ngul on kolm raskusastet. M‰ngu alustades saate valida endale sobiva\n"
+				+ "raskusastme. M‰ngus muutuvad raskusastmed vastavalt ıigete vastuste arvule. \n"
+				+ "M‰ngu lıppedes n‰itab programm Teile tehteid ja vastusied, millele vastasite valesti. \n"
+				+ "M‰ngu lıpetamiseks vajutage nuppu \"Lıpeta\".\n"
+				+ "M‰ngu alustamiseks valige tase."); //M‰ngu ıpetus. 
+		m‰nguıpetus.setTextAlignment(TextAlignment.CENTER);
+		Button esimeneTase = new Button("Tase 1");
+		Button teineTase = new Button ("Tase 2");
+		Button kolmasTase = new Button ("Tase 3");
+		Button lıpp = new Button("Lıpeta");
+		tasemeNupud.getChildren().addAll(esimeneTase, teineTase, kolmasTase);
 		tasemeNupud.setAlignment(Pos.CENTER);
 
-		k√µikNupud.getChildren().addAll(label, tasemeNupud, l√µpp);
-		k√µikNupud.setAlignment(Pos.CENTER);
-		scroll.setContent(k√µikNupud);
+		kıikNupud.getChildren().addAll(m‰nguıpetus, tasemeNupud, lıpp);
+		kıikNupud.setAlignment(Pos.CENTER);
+		scroll.setContent(kıikNupud);
 
-		√ºks.setOnAction(event -> { //Tegevus, mis juhtub, kui valitakse tase 1.
+		esimeneTase.setOnAction(event -> { //Tegevus, mis juhtub, kui valitakse tase 1.
 			Arvutustehted arvutus = new Arvutustehted(0,0); 
-			Tase.setTase(1); //M√§√§ratakse tase 1.
+			Tase.setTase(1); //M‰‰ratakse tase 1.
 			peaLava.hide();
-			M√§ngi.alustaM√§ngu(arvutus, Tase.getTase(), nimi.toString()); 
-			ekraan(peaLava, arvutus, file); //Alustatakse m√§ngu, faili kantakse kaasas. 
+			M‰ngi.alustaM‰ngu(arvutus, Tase.getTase(), t¸hiSb.toString()); 
+			ekraan(peaLava, arvutus, file); //Alustatakse m‰ngu, faili kantakse kaasas. 
 
 		});
-		kaks1.setOnAction(event -> {
+		teineTase.setOnAction(event -> {
 			Arvutustehted arvutus = new Arvutustehted(0,0);
-			Tase.setTase(2); //M√§√§ratakse tase 2.
+			Tase.setTase(2); //M‰‰ratakse tase 2.
 			peaLava.hide();
-			M√§ngi.alustaM√§ngu(arvutus, Tase.getTase(), nimi.toString());
+			M‰ngi.alustaM‰ngu(arvutus, Tase.getTase(), t¸hiSb.toString());
 			ekraan(peaLava, arvutus, file);
 		});
-		kolm.setOnAction(event -> {
+		kolmasTase.setOnAction(event -> {
 			Arvutustehted arvutus = new Arvutustehted(0,0);
-			Tase.setTase(3); //M√§√§ratakse tase 3.
+			Tase.setTase(3); //M‰‰ratakse tase 3.
 			peaLava.hide();
-			M√§ngi.alustaM√§ngu(arvutus, Tase.getTase(), nimi.toString());
+			M‰ngi.alustaM‰ngu(arvutus, Tase.getTase(), t¸hiSb.toString());
 			ekraan(peaLava, arvutus, file);
 		});
-		l√µpp.setOnAction(event -> {Platform.exit();
-
-		});
+		lıpp.setOnAction(event -> Platform.exit());
 
 		Scene stseenA=new Scene(scroll);
 		peaLava.setTitle("Peast arvutamine");  // lava tiitelribale pannakse tekst
 		peaLava.setScene(stseenA);
-		peaLava.show();  // lava tehakse n√§htavaks
+		peaLava.show();  // lava tehakse n‰htavaks
 
 	}
 	public static void main(String[] args) {

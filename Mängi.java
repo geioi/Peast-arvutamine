@@ -2,41 +2,41 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-public class MÃ¤ngi extends Tase{ //Klass mÃ¤ngi on klassi tase alamklass.
-	public MÃ¤ngi(int tase) {
-		super(tase); //MÃ¤ngu loomisel kantakse kaasas taset.
+public class Mängi extends Tase{ //Klass mängi on klassi tase alamklass.
+	public Mängi(int tase) {
+		super(tase); //Mängu loomisel kantakse kaasas taset.
 	}
 
-	public static void alustaMÃ¤ngu(Arvutustehted arvutus, int valitudTase,  String sb){
+	public static void alustaMängu(Arvutustehted arvutus, int valitudTase, String sisestus){
 
-		if (valitudTase == 1){ //MÃ¤ng algab esimeselt tasemelt.
+		if (valitudTase == 1){ //Mäng algab esimeselt tasemelt.
 
-			if (arvutus.getÃ•igeteArv() < 3){ //Arvutustehted esimesel tasemel, kuni Ãµigeid on vÃ¤hem kui kolm.
-				esimeneTase(arvutus,sb);			
+			if (arvutus.getÕigeteArv() < 3){ //Arvutustehted esimesel tasemel, kuni õigeid on vähem kui kolm.
+				esimeneTase(arvutus,sisestus);			
 			}
 
-			else if (arvutus.getÃ•igeteArv() < 10){//Arvutustehted teisel tasemel, kuni Ãµigeid on vÃ¤hem kui kÃ¼mme.
-				teineTase(arvutus,sb);
+			else if (arvutus.getÕigeteArv() < 10){//Arvutustehted teisel tasemel, kuni õigeid on vähem kui kümme.
+				teineTase(arvutus,sisestus);
 			}
 
-			else if (arvutus.getÃ•igeteArv() >= 10){//Arvutustehted kolmandal tasemel alates kÃ¼mnendast Ãµigest vastusest.
-				kolmasTase(arvutus,sb);
+			else if (arvutus.getÕigeteArv() >= 10){//Arvutustehted kolmandal tasemel alates kümnendast õigest vastusest.
+				kolmasTase(arvutus,sisestus);
 			}
 		}
 
-		else if (valitudTase == 2){ // MÃ¤ng algab teiselt tasemelt.
-			if (arvutus.getÃ•igeteArv() < 7){
-				teineTase(arvutus,sb);
+		else if (valitudTase == 2){ // Mäng algab teiselt tasemelt.
+			if (arvutus.getÕigeteArv() < 7){
+				teineTase(arvutus,sisestus);
 			}
 
-			else if (arvutus.getÃ•igeteArv() >= 7){
-				kolmasTase(arvutus,sb);
+			else if (arvutus.getÕigeteArv() >= 7){
+				kolmasTase(arvutus,sisestus);
 			}
 
 		}
 
-		else if (valitudTase == 3){ //MÃ¤ng algab kolmandalt tasemelt.
-			kolmasTase(arvutus,sb);
+		else if (valitudTase == 3){ //Mäng algab kolmandalt tasemelt.
+			kolmasTase(arvutus,sisestus);
 		}
 
 	}
@@ -47,13 +47,13 @@ public class MÃ¤ngi extends Tase{ //Klass mÃ¤ngi on klassi tase alamklass.
 		writer.close();
 	}
 
-	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sb, File file) throws Exception{ 
+	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sisestus, File file) throws Exception{ 
 //Vastuse kontroll.
-		if (!tehe.vastuseKontroll(Integer.parseInt(sb))){ //Kui sisestus oli vale, siis kirjutab faili.
-			kirjutaFaili(tehe, teheJaVastus, sb, file);
+		if (!tehe.vastuseKontroll(Integer.parseInt(sisestus))){ //Kui sisestus oli vale, siis kirjutab faili.
+			kirjutaFaili(tehe, teheJaVastus, sisestus, file);
 		}
-		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sb))); //Punkti lisamine vastavalt sisestatud vastuse tÃµesusele.
+		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sisestus))); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
 
-		alustaMÃ¤ngu(new Arvutustehted(tehe.getÃ•igeteArv(), tehe.getValedeArv()), getTase(), sb); //Esitatakse uus tehe.
+		alustaMängu(new Arvutustehted(tehe.getÕigeteArv(), tehe.getValedeArv()), getTase(), sisestus); //Esitatakse uus tehe.
 	}
 }

@@ -2,7 +2,7 @@ public class Tase{
 	protected static int tase; //Staatiline, et saaks kasutada teistes programmi klassides. 
 	
 	public Tase(int tase){
-		Tase.tase=tase; //Taseme mÃ¤Ã¤ramiseks graafilisest kasutajaliidesest. 
+		Tase.tase=tase; //Taseme määramiseks graafilisest kasutajaliidesest. 
 	}
 
 	public static int getTase() { 
@@ -14,7 +14,7 @@ public class Tase{
 	}
 	
 	public static void esimeneTase(Arvutustehted arvutus,  String sb){
-		int arv = (int) Math.round(Math.random()*1+1); //Tehte valimiseks arv 1 vÃµi 2.
+		int arv = (int) Math.round(Math.random()*1+1); //Tehte valimiseks arv 1 või 2.
 		if (arv == 1){
 			arvutus.moodustaLiitmine(0,10 ); //Moodustatakse liitmistehe.
 		}
