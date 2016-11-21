@@ -1,7 +1,11 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.RandomAccessFile;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -27,7 +31,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class GraafikaAken extends Application {
-	
+
 	public String valedVastused(int ıiged, int valed) throws FileNotFoundException{ //Meetod, millega esitatakse tulemused ekraanile. Vajadusel failist.
 		File valedvastused= new File("Valed Vastused.txt"); //Programmi poolt loodud faili m‰‰ramine, millest tulemusi loetakse. 
 		Scanner tekst = new Scanner(valedvastused);
@@ -41,8 +45,8 @@ public class GraafikaAken extends Application {
 		tekst.close();
 		return vale;
 	}
-	
-	public void okVajutatud(Stage ekraan, Arvutustehted arvutus, StringBuilder sisestus, File file) { //Meetod, mis rakendub, kui vajutatakse OK nuppu vıi enter.
+
+	public void okVajutatud(Stage ekraan, Arvutustehted arvutus, StringBuilder sisestus, Writer file) { //Meetod, mis rakendub, kui vajutatakse OK nuppu vıi enter.
 		try{//Failiga tekkivad probleemid p¸¸takse kinni.
 			Integer.parseInt(sisestus.toString()); //Sisestus ei ole number, siis tehe j‰‰b samaks.
 			M‰ngi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString(), file); //Sisestatud vastuse kontroll, kasutatakse klassi M‰ngi meetodit vastamine.
@@ -58,20 +62,20 @@ public class GraafikaAken extends Application {
 		};
 
 	}
-	
+
 	public void kirjuta(TextField v‰li, int kursoriAsukoht, StringBuilder sisestus, String tekst){ //lisab etteantud asukohale sisestatud karakteri.
 		sisestus.insert(v‰li.getCaretPosition(), tekst);
 		v‰li.setText(sisestus.toString());
 		v‰li.positionCaret(kursoriAsukoht+1); //m‰‰ran, kuhu kursor peab minema p‰rast sisestust, vastasel juhul saab see v‰‰rtuseks 0.
 	}
-	
+
 	public void kustuta(TextField v‰li, int kursoriAsukoht, StringBuilder sisestus){ //kustutab antud kohalt karakteri.
 		sisestus.deleteCharAt(v‰li.getCaretPosition()-1);
 		v‰li.setText(sisestus.toString());
 		v‰li.positionCaret(kursoriAsukoht-1);
 	}
-	
-	public void ekraan(Stage ekraan, Arvutustehted arvutus, File file){ //Meetod, milles toimub pıhitegevus.
+
+	public void ekraan(Stage ekraan, Arvutustehted arvutus, Writer file){ //Meetod, milles toimub pıhitegevus.
 
 		StringBuilder sisestus = new StringBuilder(); //Kasutaja sisestuse hoidmiseks. 
 		BorderPane Paan = new BorderPane(); //Ekraani paigutuse m‰‰ramiseks. 
@@ -110,12 +114,12 @@ public class GraafikaAken extends Application {
 		ıigedJaValedArv.getChildren().addAll(label’iged, labelValed);
 		teheJaTekstiv‰li.getChildren().addAll(stack, tekstiv‰li);
 		¸leminePool.getChildren().addAll(ıigedJaValedArv, teheJaTekstiv‰li);
-		
+
 		teheJaTekstiv‰li.setAlignment(Pos.CENTER_RIGHT);
 		ıigedJaValedArv.setAlignment(Pos.CENTER);
 		label’iged.setAlignment(Pos.CENTER_LEFT);
 		labelValed.setAlignment(Pos.TOP_RIGHT);
-		
+
 		Paan.setTop(¸leminePool); //Elementide lisamine ekraanile sobivas paigutuses. 
 
 		HBox x1 = new HBox();
@@ -139,7 +143,7 @@ public class GraafikaAken extends Application {
 
 		for (int i = 1; i < 10; i++){
 			int number = i;
-			
+
 			Button n1 = new Button(new Integer(i).toString());
 			n1.setFocusTraversable(false);
 			n1.setTextFill(Color.BLUE);
@@ -160,27 +164,27 @@ public class GraafikaAken extends Application {
 		miinus.setTextFill(Color.RED);
 		miinus.setPrefSize(60,30);
 		miinus.setFocusTraversable(false);
-		
+
 		x2.getChildren().add(miinus);
 		Button kustuta = new Button ("C");
 		kustuta.setTextFill(Color.RED);
 		kustuta.setPrefSize(60,30);
 		kustuta.setFocusTraversable(false);
-		
+
 		Button nNull = new Button ("0");
 		nNull.setTextFill(Color.BLUE);
 		nNull.setPrefSize(60,30);
 		nNull.setFocusTraversable(false);
-		
+
 		Button kustutaKıik = new Button ("CE");
 		kustutaKıik.setTextFill(Color.RED);
 		kustutaKıik.setPrefSize(60,30);
 		kustutaKıik.setFocusTraversable(false);
-		
+
 		Button ok = new Button ("OK");
 		ok.setTextFill(Color.GREEN);
 		ok.setPrefSize(60,30);
-		
+
 		x1.getChildren().add(ok);
 		x4.getChildren().addAll(kustuta, nNull, kustutaKıik);
 
@@ -238,7 +242,8 @@ public class GraafikaAken extends Application {
 			Button lıpetaP‰riselt = new Button("Lıpeta");
 			Button uuesti = new Button("Alusta uuesti");
 			try{
-				kuvaValed.setText(valedVastused(arvutus.get’igeteArv(), arvutus.getValedeArv())); //Rakendatakse eelnevalt defineeritud meetodit.
+				file.close(); //t¸hjendame puhvri faili ja sulgeme selle.
+				kuvaValed.setText(valedVastused(arvutus.get’igeteArv(), arvutus.getValedeArv()));//Rakendatakse eelnevalt defineeritud meetodit.
 				//Valede tehete ja vastuste kuvamiseks. 
 			}
 			catch(Exception e){
@@ -249,7 +254,11 @@ public class GraafikaAken extends Application {
 			uuesti.setOnAction(event12-> { //Nupp uuesti vıimaldab m‰ngu taasalustada. 
 				vastus.hide();
 				ekraan.setResizable(true);
-				start(ekraan);
+				try{
+					start(ekraan);
+				}catch(Exception e){
+					System.out.println("Failiga tekkis mingisugune probleem");
+				}
 			});
 			FlowPane pane = new FlowPane(10,10);
 			pane.setAlignment(Pos.CENTER);
@@ -280,19 +289,10 @@ public class GraafikaAken extends Application {
 	}
 
 	@Override
-	public void start(Stage peaLava) { //Alustamise ekraan.
-		File file = new File("Valed Vastused.txt"); 
-		//Kontrollib, kas fail oli eelnevalt olemas, kui oli, siis see t¸hjendatakse, vastasel juhul luuakse uus.
-		try {
-			if (!file.createNewFile() && file.length() != 0){
-				RandomAccessFile raf = new RandomAccessFile(file, "rw");
-				raf.setLength(0);
-				raf.close();
-			}
-		} catch (Exception e) {
-			System.out.println("Faili ei leitud vıi ei olnud vıimalik faili kirjutada!");
-		} 
-
+	public void start(Stage peaLava) throws Exception{ //Alustamise ekraan.
+		Writer kirjutaja = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Valed vastused.txt"), "utf-8"));
+		//tekitame uue faili, millele hakkame puhvrisse teksti lisama.
+		
 		ScrollPane scroll = new ScrollPane();
 		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED); //Vastavalt ekraani suuruse muutmisele tekivad vajadusel kerimisribad.
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
@@ -324,7 +324,7 @@ public class GraafikaAken extends Application {
 			Tase.setTase(1); //M‰‰ratakse tase 1.
 			peaLava.hide();
 			M‰ngi.alustaM‰ngu(arvutus, Tase.getTase()); 
-			ekraan(peaLava, arvutus, file); //Alustatakse m‰ngu, faili kantakse kaasas. 
+			ekraan(peaLava, arvutus, kirjutaja); //Alustatakse m‰ngu, faili kantakse kaasas. 
 
 		});
 		teineTase.setOnAction(event -> {
@@ -332,14 +332,14 @@ public class GraafikaAken extends Application {
 			Tase.setTase(2); //M‰‰ratakse tase 2.
 			peaLava.hide();
 			M‰ngi.alustaM‰ngu(arvutus, Tase.getTase());
-			ekraan(peaLava, arvutus, file);
+			ekraan(peaLava, arvutus, kirjutaja);
 		});
 		kolmasTase.setOnAction(event -> {
 			Arvutustehted arvutus = new Arvutustehted(0,0);
 			Tase.setTase(3); //M‰‰ratakse tase 3.
 			peaLava.hide();
 			M‰ngi.alustaM‰ngu(arvutus, Tase.getTase());
-			ekraan(peaLava, arvutus, file);
+			ekraan(peaLava, arvutus, kirjutaja);
 		});
 		lıpp.setOnAction(event -> Platform.exit());
 

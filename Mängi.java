@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 public class Mängi extends Tase{ //Klass mängi on klassi tase alamklass.
@@ -41,15 +40,14 @@ public class Mängi extends Tase{ //Klass mängi on klassi tase alamklass.
 
 	}
 
-	public static void kirjutaFaili(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sisestus, File fail) throws Exception{
-		FileWriter writer = new FileWriter(fail, true); //Avab faili, kuhu kirjutatakse, true lubab faili lisada meetodiga append. 
-		writer.append("Tehe: " + teheJaVastus.get(0) +teheJaVastus.get(1)+ ", " +" aga Teie vastasite: " + sisestus +";");
-		writer.close();
+	public static void kirjutaFaili(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sisestus, Writer fail) throws Exception{
+		fail.append("Tehe: " + teheJaVastus.get(0) +teheJaVastus.get(1)+ ", " +" aga Teie vastasite: " + sisestus +";");
+		//lisab puhvrisse teksti.
 	}
 
-	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sisestus, File file) throws Exception{ 
+	public static void vastamine(Arvutustehted tehe, ArrayList<String> teheJaVastus, String sisestus, Writer file) throws Exception{ 
 //Vastuse kontroll.
-		if (!tehe.vastuseKontroll(Integer.parseInt(sisestus))){ //Kui sisestus oli vale, siis kirjutab faili.
+		if (!tehe.vastuseKontroll(Integer.parseInt(sisestus))){ //Kui sisestus oli vale, siis kirjutab puhvrisse.
 			kirjutaFaili(tehe, teheJaVastus, sisestus, file);
 		}
 		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sisestus))); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
