@@ -47,7 +47,7 @@ public class GraafikaAken extends Application {
 			Integer.parseInt(sisestus.toString()); //Sisestus ei ole number, siis tehe jääb samaks.
 			Mängi.vastamine(arvutus, arvutus.getTulemus(), sisestus.toString(), file); //Sisestatud vastuse kontroll, kasutatakse klassi Mängi meetodit vastamine.
 			Arvutustehted uusArvutus = new Arvutustehted(arvutus.getÕigeteArv(), arvutus.getValedeArv()); //Kannab üle õigete ja valede vastuste arvu.
-			Mängi.alustaMängu(uusArvutus, Tase.getTase(), sisestus.toString()); //Moodustatakse uus arvutustehe, millele kasutaja saab vastata.
+			Mängi.alustaMängu(uusArvutus, Tase.getTase()); //Moodustatakse uus arvutustehe, millele kasutaja saab vastata.
 			ekraan(ekraan, uusArvutus, file); //Luuakse uus ekraan uue tehtega, millele kasutaja saab vastata. 
 		}
 		catch(NumberFormatException e){
@@ -238,7 +238,7 @@ public class GraafikaAken extends Application {
 			Button lõpetaPäriselt = new Button("Lõpeta");
 			Button uuesti = new Button("Alusta uuesti");
 			try{
-				kuvaValed.setText(valedVastused(arvutus.õigeteArv, arvutus.valedeArv)); //Rakendatakse eelnevalt defineeritud meetodit.
+				kuvaValed.setText(valedVastused(arvutus.getÕigeteArv(), arvutus.getValedeArv())); //Rakendatakse eelnevalt defineeritud meetodit.
 				//Valede tehete ja vastuste kuvamiseks. 
 			}
 			catch(Exception e){
@@ -296,7 +296,6 @@ public class GraafikaAken extends Application {
 		ScrollPane scroll = new ScrollPane();
 		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED); //Vastavalt ekraani suuruse muutmisele tekivad vajadusel kerimisribad.
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		StringBuilder tühiSb = new StringBuilder();
 		VBox kõikNupud = new VBox(10);
 		HBox tasemeNupud = new HBox(10);
 		Label mänguõpetus = new Label();
@@ -324,7 +323,7 @@ public class GraafikaAken extends Application {
 			Arvutustehted arvutus = new Arvutustehted(0,0); 
 			Tase.setTase(1); //Määratakse tase 1.
 			peaLava.hide();
-			Mängi.alustaMängu(arvutus, Tase.getTase(), tühiSb.toString()); 
+			Mängi.alustaMängu(arvutus, Tase.getTase()); 
 			ekraan(peaLava, arvutus, file); //Alustatakse mängu, faili kantakse kaasas. 
 
 		});
@@ -332,14 +331,14 @@ public class GraafikaAken extends Application {
 			Arvutustehted arvutus = new Arvutustehted(0,0);
 			Tase.setTase(2); //Määratakse tase 2.
 			peaLava.hide();
-			Mängi.alustaMängu(arvutus, Tase.getTase(), tühiSb.toString());
+			Mängi.alustaMängu(arvutus, Tase.getTase());
 			ekraan(peaLava, arvutus, file);
 		});
 		kolmasTase.setOnAction(event -> {
 			Arvutustehted arvutus = new Arvutustehted(0,0);
 			Tase.setTase(3); //Määratakse tase 3.
 			peaLava.hide();
-			Mängi.alustaMängu(arvutus, Tase.getTase(), tühiSb.toString());
+			Mängi.alustaMängu(arvutus, Tase.getTase());
 			ekraan(peaLava, arvutus, file);
 		});
 		lõpp.setOnAction(event -> Platform.exit());

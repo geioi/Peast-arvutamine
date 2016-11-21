@@ -5,8 +5,8 @@ public class Arvutustehted {
 	private int esimenearv;
 	private int teinearv;
 	private int vastus; 
-	int õigeteArv;
-	int valedeArv;
+	private int õigeteArv;
+	private int valedeArv;
 
 	public ArrayList<String> getTulemus() {
 		return tulemus;
@@ -28,7 +28,6 @@ public class Arvutustehted {
 	}
 
 	public ArrayList<String> moodustaLiitmine(int min, int max){ //Liitmistehte moodustamine, kus antakse ette randomi vahemik.
-		tulemus.clear(); //Listi tühjendamine.
 		esimenearv = (int)Math.round(Math.random()*(max-min)+min);
 		teinearv = (int)Math.round(Math.random()*(max-min)+min);
 		vastus = esimenearv + teinearv;
@@ -39,7 +38,6 @@ public class Arvutustehted {
 
 	}
 	public ArrayList<String> moodustaLahutamine(int min, int max){ //Lahutamistehte moodustamine, kus antakse ette randomi vahemik.
-		tulemus.clear();
 		esimenearv = (int)Math.round(Math.random()*(max-min)+min);
 		teinearv = (int)Math.round(Math.random()*(max-min)+min);
 		vastus = esimenearv - teinearv;
@@ -50,7 +48,6 @@ public class Arvutustehted {
 	}
 
 	public ArrayList<String> moodustaKorrutamine(int min, int max) {//Korrutamistehte moodustamine, kus antakse ette randomi vahemik.
-		tulemus.clear();
 		esimenearv = (int)Math.round(Math.random()*(max-min)+min);
 		teinearv = (int)Math.round(Math.random()*(max-min)+min);
 		vastus = esimenearv * teinearv;

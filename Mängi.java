@@ -7,36 +7,36 @@ public class Mängi extends Tase{ //Klass mängi on klassi tase alamklass.
 		super(tase); //Mängu loomisel kantakse kaasas taset.
 	}
 
-	public static void alustaMängu(Arvutustehted arvutus, int valitudTase, String sisestus){
+	public static void alustaMängu(Arvutustehted arvutus, int valitudTase){
 
 		if (valitudTase == 1){ //Mäng algab esimeselt tasemelt.
 
 			if (arvutus.getÕigeteArv() < 3){ //Arvutustehted esimesel tasemel, kuni õigeid on vähem kui kolm.
-				esimeneTase(arvutus,sisestus);			
+				esimeneTase(arvutus);			
 			}
 
 			else if (arvutus.getÕigeteArv() < 10){//Arvutustehted teisel tasemel, kuni õigeid on vähem kui kümme.
-				teineTase(arvutus,sisestus);
+				teineTase(arvutus);
 			}
 
-			else if (arvutus.getÕigeteArv() >= 10){//Arvutustehted kolmandal tasemel alates kümnendast õigest vastusest.
-				kolmasTase(arvutus,sisestus);
+			else {//Arvutustehted kolmandal tasemel alates kümnendast õigest vastusest.
+				kolmasTase(arvutus);
 			}
 		}
 
 		else if (valitudTase == 2){ // Mäng algab teiselt tasemelt.
 			if (arvutus.getÕigeteArv() < 7){
-				teineTase(arvutus,sisestus);
+				teineTase(arvutus);
 			}
 
-			else if (arvutus.getÕigeteArv() >= 7){
-				kolmasTase(arvutus,sisestus);
+			else {
+				kolmasTase(arvutus);
 			}
 
 		}
 
-		else if (valitudTase == 3){ //Mäng algab kolmandalt tasemelt.
-			kolmasTase(arvutus,sisestus);
+		else { //Mäng algab kolmandalt tasemelt.
+			kolmasTase(arvutus);
 		}
 
 	}
@@ -53,7 +53,5 @@ public class Mängi extends Tase{ //Klass mängi on klassi tase alamklass.
 			kirjutaFaili(tehe, teheJaVastus, sisestus, file);
 		}
 		tehe.annaPunkt(tehe.vastuseKontroll(Integer.parseInt(sisestus))); //Punkti lisamine vastavalt sisestatud vastuse tõesusele.
-
-		alustaMängu(new Arvutustehted(tehe.getÕigeteArv(), tehe.getValedeArv()), getTase(), sisestus); //Esitatakse uus tehe.
 	}
 }
